@@ -568,7 +568,7 @@ const NavHeader = () => (
           cursor: "pointer",
         }}
       >
-        Portfolio
+        Mage&apos;s Website
       </span>
       <span
         style={{
