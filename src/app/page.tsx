@@ -1,4 +1,5 @@
-import HomePagePrototype from "./_components/prototypes/HomePagePrototype";
+import HomePagePrototype from "./_components/prototypes/HomePagePrototype/HomePagePrototype";
+import { MOCK_SUMMARIES } from "./constants/mockData";
 
 export const metadata = {
   title: "DragunWF Book Summaries",
@@ -7,7 +8,7 @@ export const metadata = {
 export default function Page() {
   return (
     <div>
-      <HomePagePrototype />
+      <HomePagePrototype bookSummaries={MOCK_SUMMARIES} />
     </div>
   );
 }

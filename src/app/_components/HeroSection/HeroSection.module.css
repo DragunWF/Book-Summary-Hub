@@ -1,0 +1,119 @@
+.heroSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 80px;
+  align-items: center;
+  background: linear-gradient(to right, var(--bg-base), var(--bg-deep));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroContent {
+  z-index: 2;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-primary);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.heroTitle {
+  font-size: 3rem;
+  line-height: 1.1;
+  font-weight: 800;
+  margin-bottom: 24px;
+  background: linear-gradient(to bottom right, #fff, #a1a1aa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.heroDescription {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 90%;
+}
+
+.btnPrimary {
+  background-color: var(--text-primary);
+  color: var(--bg-deep);
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s ease, background-color 0.2s;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  background-color: #fff;
+}
+
+.heroVisual {
+  position: relative;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+}
+
+.heroBookCover {
+  width: 260px;
+  height: 380px;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border-radius: 8px;
+  box-shadow: 
+    -10px 10px 30px rgba(0,0,0,0.5),
+    0 0 0 2px var(--border);
+  transform: rotateY(-15deg) rotateX(5deg);
+  transition: transform 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  border-left: 12px solid #334155; /* Spine */
+}
+
+.heroSection:hover .heroBookCover {
+  transform: rotateY(-10deg) rotateX(2deg) scale(1.02);
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .heroBadge {
+    margin: 0 auto 24px;
+  }
+
+  .heroDescription {
+    margin: 0 auto 32px;
+  }
+
+  .heroVisual {
+    height: 300px;
+  }
+}
