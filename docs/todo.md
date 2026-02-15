@@ -2,20 +2,20 @@
 
 ## Home Page
 
-- [ ] UI Layout
+- [x] UI Layout
 - [ ] Featured book summary feature
 - [ ] Book summary list feature
 - [ ] Search book summary list feature
 
 ## Individual Book Summary Page
 
-- [ ] UI Layout
+- [x] UI Layout
 - [ ] Book info display
 - [ ] Comment on summary feature
 
 ## Admin Login Page
 
-- [ ] UI Layout
+- [x] UI Layout
 - [ ] User authentication
 
 ## Admin Dashboard Page
