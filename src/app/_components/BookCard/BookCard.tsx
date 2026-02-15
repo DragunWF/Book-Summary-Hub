@@ -2,13 +2,17 @@ import Book from "@/app/interfaces/book";
 import { BookOpen, Clock, Star } from "lucide-react";
 import styles from "./BookCard.module.css";
 
-export default function BookCard({ book }: { book: Book }) {
+interface BookCardProps {
+  book: Book;
+}
+
+export default function BookCard({ book }: BookCardProps) {
   const statusClass =
     book.status === "Completed"
       ? styles.statusCompleted
       : book.status === "In Progress"
-      ? styles.statusProgress
-      : styles.statusToread;
+        ? styles.statusProgress
+        : styles.statusToread;
 
   return (
     <div className={styles.bookCard}>

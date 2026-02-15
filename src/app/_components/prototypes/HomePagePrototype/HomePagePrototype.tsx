@@ -24,7 +24,9 @@ export default function HomePagePrototype({
     useState<Book[]>(bookSummaries);
 
   // Categories derived from data
-  const categories = Array.from(new Set(MOCK_SUMMARIES.map((b) => b.category)));
+  const categories = Array.from(
+    new Set(MOCK_SUMMARIES.map((bookSummary) => bookSummary.category)),
+  );
 
   // Filter Logic
   const filteredBooks = useMemo(() => {

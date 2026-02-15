@@ -1,5 +1,6 @@
 import { Library, ShieldCheck } from "lucide-react";
 import styles from "./NavHeader.module.css";
+import Link from "next/link";
 
 export default function NavHeader() {
   return (
@@ -9,8 +10,17 @@ export default function NavHeader() {
         <span>DragunWF Library</span>
       </div>
       <div className={styles.navLinks}>
-        <span className={styles.navLink}>Mage&apos;s Website</span>
-        <span className={styles.navLink}>About</span>
+        <span className={styles.navLink}>
+          <Link
+            href="https://dragunwf.vercel.app/"
+            referrerPolicy="no-referrer"
+          >
+            Mage&apos;s Website
+          </Link>
+        </span>
+        <span className={styles.navLink}>
+          <Link href="/">About</Link>
+        </span>
         <button className={styles.magePortalBtn}>
           <ShieldCheck size={16} />
           Mage&apos;s Portal
