@@ -1,0 +1,25 @@
+/* Ensure font import works */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+.obsidianWrapper {
+  /* CSS Variables - Scoped to this component if not global */
+  --void-bg: #050505;
+  --card-bg: rgba(255, 255, 255, 0.02);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --input-bg: #101012;
+  --mage-green: #00ff41;
+  --mage-green-dim: rgba(0, 255, 65, 0.1);
+  --error-red: #ff3333;
+  --text-main: #ffffff;
+  --text-muted: #6b7280;
+
+  font-family: "Inter", monospace;
+  background-color: var(--void-bg);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}

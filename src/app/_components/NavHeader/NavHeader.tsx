@@ -14,6 +14,7 @@ export default function NavHeader() {
           <Link
             href="https://dragunwf.vercel.app/"
             referrerPolicy="no-referrer"
+            target="_blank"
           >
             Mage&apos;s Website
           </Link>
