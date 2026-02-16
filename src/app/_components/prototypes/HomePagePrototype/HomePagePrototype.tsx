@@ -119,7 +119,7 @@ export default function HomePagePrototype({
         <footer className={styles.footer}>
           <p>
             &copy; {new Date().getFullYear()} DragunWF. Built with React,
-            TypeScript, & Next.ts.
+            TypeScript, & Next.js
           </p>
         </footer>
       </div>
