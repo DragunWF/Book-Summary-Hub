@@ -5,6 +5,7 @@ import { BookOpen, Calendar, Star } from "lucide-react";
 import styles from "./BookCard.module.css";
 import Link from "next/link";
 import { useState } from "react";
+import { getCategoryColor } from "@/app/constants/bookCategories";
 
 interface BookCardProps {
   book: Book;
@@ -12,6 +13,7 @@ interface BookCardProps {
 
 export default function BookCard({ book }: BookCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const categoryStyle = getCategoryColor(book.category);
 
   // Format date if it exists
   const formattedDate = book.createdAt
@@ -61,7 +63,15 @@ export default function BookCard({ book }: BookCardProps) {
         </div>
 
         <div className={styles.cardFooter}>
-          <span className={styles.categoryBadge}>{book.category}</span>
+          <span
+            className={styles.categoryBadge}
+            style={{
+              backgroundColor: categoryStyle.bg,
+              color: categoryStyle.text,
+            }}
+          >
+            {book.category}
+          </span>
 
           <div className={styles.ratingBadge}>
             <span>{book.rating}/10</span>
