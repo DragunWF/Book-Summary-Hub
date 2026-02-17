@@ -1,4 +1,3 @@
-import React from "react";
 import NavHeader from "../_components/NavHeader/NavHeader";
 import Background from "../_components/AdminLogin/Background/Background";
 import styles from "./about.module.css";
