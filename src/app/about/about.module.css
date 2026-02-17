@@ -247,10 +247,12 @@
   background-size: 100% 200%; /* Height twice the line height for vertical animation */
   background-position: 0% 0%;
   overflow: hidden;
-  width: 2px;
+  width: 4px; /* Thicker line */
   height: 60px;
   margin: 0.5rem 0;
   animation: flowVerticalGradient 3s infinite linear;
+  box-shadow: 0 0 10px var(--accent-glow); /* Glowing effect */
+  border-radius: 2px; /* Rounded ends */
 }
 
 .connectorLabel {
@@ -366,7 +368,7 @@
   }
 
   .connectorLine {
-    height: 2px;
+    height: 4px; /* Thicker line */
     width: 120px; /* Increased length for visibility */
     margin: 0 1rem;
     background: linear-gradient(
