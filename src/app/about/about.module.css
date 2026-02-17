@@ -224,7 +224,6 @@
   box-shadow: 0 0 20px var(--accent-primary);
 }
 
-
 /* --- CONNECTORS --- */
 .connectorWrapper {
   display: flex;
@@ -310,7 +309,7 @@
     background-position: 0% 0%;
   }
   100% {
-    background-position: 200% 0%;
+    background-position: -200% 0%; /* Animate right to left */
   }
 }
 
@@ -357,7 +356,7 @@
   }
 
   .flowChart {
-    flex-direction: row;
+    flex-direction: row; /* Keep standard Left-to-Right layout */
     gap: 0;
   }
 
@@ -372,8 +371,8 @@
     width: 120px; /* Increased length for visibility */
     margin: 0 1rem;
     background: linear-gradient(
-      to right,
-      transparent 0%,
+      to left,
+      /* Changed from to right */ transparent 0%,
       var(--accent-primary) 50%,
       transparent 100%
     );
