@@ -11,6 +11,9 @@ export default function NavHeader() {
       </div>
       <div className={styles.navLinks}>
         <span className={styles.navLink}>
+          <Link href="/about">About</Link>
+        </span>
+        <span className={styles.navLink}>
           <Link
             href="https://dragunwf.vercel.app/"
             referrerPolicy="no-referrer"
@@ -18,9 +21,6 @@ export default function NavHeader() {
           >
             Mage&apos;s Website
           </Link>
-        </span>
-        <span className={styles.navLink}>
-          <Link href="/about">About</Link>
         </span>
         <Link href="/admin/login" target="_blank">
           <button className={styles.magePortalBtn}>
