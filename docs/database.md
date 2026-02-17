@@ -10,7 +10,6 @@
   "coverColor": "string",
   "category": "string",
   "rating": "number",
-  "status": "string",
   "summary": "string",
   "fullContent": "string",
   "dateRead": "string",
