@@ -1,0 +1,327 @@
+.aboutWrapper {
+  min-height: 100vh;
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans);
+  position: relative;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.contentContainer {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 80px;
+}
+
+/* --- SECTION A: ABSTRACT --- */
+.abstractContainer {
+  max-width: 56rem; /* ~896px */
+  margin: 0 auto;
+  margin-bottom: 5rem;
+  padding-top: 2.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.abstractLayout {
+  display: flex;
+  gap: 1.5rem;
+  flex-direction: column;
+}
+
+.decoratorLine {
+  display: none;
+}
+
+.systemLogHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.logMeta {
+  color: var(--accent-primary);
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.logTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.logContent {
+  border-left: 2px solid var(--accent-primary);
+  padding-left: 1rem;
+}
+
+.logText {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 42rem;
+}
+
+.highlight {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* --- SECTION B: BLUEPRINT --- */
+.blueprintContainer {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.glassPanel {
+  background: rgba(9, 9, 11, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.pipelineHeader {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.pipelineTitle {
+  font-family: var(--font-geist-mono);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.flowChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  gap: 1rem;
+}
+
+/* --- NODES --- */
+.nodeWrapper {
+  position: relative;
+  z-index: 10;
+  cursor: default;
+}
+
+.systemNode {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 200px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.systemNode:hover {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 15px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.nodeIcon {
+  font-size: 1.5rem;
+  filter: grayscale(100%);
+  transition: all 0.3s ease;
+}
+
+.systemNode:hover .nodeIcon {
+  filter: grayscale(0%);
+}
+
+.nodeLabel {
+  font-family: var(--font-geist-mono);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease;
+}
+
+.systemNode:hover .nodeLabel {
+  color: var(--accent-primary);
+}
+
+.nodeMeta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-geist-mono);
+}
+
+/* --- CONNECTORS --- */
+.connectorWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  /* Mobile default: vertical flow */
+  flex-direction: column;
+}
+
+.connectorLine {
+  position: relative;
+  background: var(--border);
+  overflow: hidden;
+  width: 2px;
+  height: 60px;
+  margin: 0.5rem 0;
+}
+
+.dataPacket {
+  position: absolute;
+  background: var(--accent-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-primary);
+  width: 2px;
+  height: 20px;
+  left: 0;
+  animation: flowVertical 2s infinite linear;
+}
+
+.connectorLabel {
+  position: absolute;
+  background: var(--bg-deep);
+  padding: 0 0.5rem;
+  font-size: 0.625rem;
+  font-family: var(--font-geist-mono);
+  color: var(--accent-primary);
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 20;
+}
+
+/* --- FOOTER METADATA --- */
+.systemFooter {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  opacity: 0.5;
+  font-family: var(--font-geist-mono);
+  font-size: 0.625rem;
+  color: var(--text-muted);
+}
+
+.footerBlock p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.textRight {
+  text-align: right;
+}
+
+.pageFooter {
+  margin-top: auto;
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 10;
+  background: var(--bg-deep);
+}
+
+/* --- KEYFRAMES --- */
+@keyframes flowHorizontal {
+  0% { left: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
+@keyframes flowVertical {
+  0% { top: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+@media (min-width: 768px) {
+  .abstractLayout {
+    flex-direction: row;
+  }
+
+  .decoratorLine {
+    display: block;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--accent-primary), transparent);
+    height: 8rem;
+    border-radius: 99px;
+    opacity: 0.8;
+    box-shadow: 0 0 10px var(--accent-primary);
+  }
+
+  .logTitle {
+    font-size: 3rem;
+  }
+
+  .logText {
+    font-size: 1.25rem;
+  }
+
+  .logContent {
+    border-left: none; /* Removed on desktop if decorator line is present */
+    padding-left: 0;
+  }
+
+  .glassPanel {
+    padding: 3rem;
+  }
+
+  .flowChart {
+    flex-direction: row;
+    gap: 0;
+  }
+
+  .connectorWrapper {
+    flex-direction: row;
+    width: auto;
+    flex-grow: 1;
+  }
+
+  .connectorLine {
+    height: 2px;
+    width: auto;
+    flex-grow: 1;
+    margin: 0 1rem;
+  }
+
+  .dataPacket {
+    width: 40px;
+    height: 2px;
+    top: 0;
+    left: auto; /* Reset left from mobile */
+    animation: flowHorizontal 2s infinite linear;
+  }
+}
