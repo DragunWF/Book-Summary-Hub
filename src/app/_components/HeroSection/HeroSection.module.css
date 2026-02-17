@@ -93,10 +93,50 @@
   padding: 20px;
   text-align: center;
   border-left: 12px solid #334155; /* Spine */
+  position: relative;
+}
+
+.heroBookCover::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
 }
 
 .heroSection:hover .heroBookCover {
   transform: rotateY(-10deg) rotateX(2deg) scale(1.02);
+}
+
+.heroCategoryBadge {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 10;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  animation: floatBadge 3s ease-in-out infinite;
+  color: #fff;
+}
+
+@keyframes floatBadge {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @media (max-width: 768px) {
@@ -115,5 +155,10 @@
 
   .heroVisual {
     height: 300px;
+  }
+
+  .heroBookCover {
+    width: 200px;
+    height: 280px;
   }
 }

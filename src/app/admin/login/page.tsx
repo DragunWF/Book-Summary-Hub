@@ -13,7 +13,7 @@ export default function Page() {
     <div className={styles.obsidianWrapper}>
       <Background />
       <AdminLoginForm />
-      
+
       <div className={styles.bottomNav}>
         <Link href="/" className={styles.abortBtn}>
           <XCircle size={18} />

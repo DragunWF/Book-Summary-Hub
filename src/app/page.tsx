@@ -14,7 +14,7 @@ export default function Home() {
       <div className="container">
         <NavHeader />
 
-        <HeroSection />
+        <HeroSection featuredBook={MOCK_SUMMARIES[0]} />
 
         <main>
           <BookLibrary bookSummaries={MOCK_SUMMARIES} />
