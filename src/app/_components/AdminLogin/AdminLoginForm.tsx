@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import Background from "./Background/Background";
-import VaultCard from "./VaultCard/VaultCard";
-import LoginForm from "./LoginForm/LoginForm";
-import styles from "./AdminLogin.module.css";
+import VaultCard from "@/app/_components/AdminLogin/VaultCard/VaultCard";
+import LoginForm from "@/app/_components/AdminLogin/LoginForm/LoginForm";
 
-export default function AdminLogin() {
+export default function AdminLoginForm() {
   const [identity, setIdentity] = useState("");
   const [passphrase, setPassphrase] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -51,26 +49,22 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className={styles.obsidianWrapper}>
-      <Background />
-
-      <VaultCard
+    <VaultCard
+      error={error}
+      success={success}
+      isHoveringButton={isHoveringButton}
+    >
+      <LoginForm
+        identity={identity}
+        setIdentity={onIdentityChange}
+        passphrase={passphrase}
+        setPassphrase={onPassphraseChange}
+        handleAuth={handleAuth}
+        isLoading={isLoading}
         error={error}
         success={success}
-        isHoveringButton={isHoveringButton}
-      >
-        <LoginForm
-          identity={identity}
-          setIdentity={onIdentityChange}
-          passphrase={passphrase}
-          setPassphrase={onPassphraseChange}
-          handleAuth={handleAuth}
-          isLoading={isLoading}
-          error={error}
-          success={success}
-          setIsHoveringButton={setIsHoveringButton}
-        />
-      </VaultCard>
-    </div>
+        setIsHoveringButton={setIsHoveringButton}
+      />
+    </VaultCard>
   );
 }

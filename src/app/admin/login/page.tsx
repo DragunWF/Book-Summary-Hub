@@ -1,4 +1,6 @@
-import AdminLoginPrototype from "@/app/_components/prototypes/AdminLoginPrototype";
+import Background from "@/app/_components/AdminLogin/Background/Background";
+import AdminLoginForm from "@/app/_components/AdminLogin/AdminLoginForm";
+import styles from "./page.module.css";
 
 export const metadata = {
   title: "Admin Login",
@@ -6,8 +8,9 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <div>
-      <AdminLoginPrototype />
+    <div className={styles.obsidianWrapper}>
+      <Background />
+      <AdminLoginForm />
     </div>
   );
 }
