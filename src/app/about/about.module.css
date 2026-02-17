@@ -1,3 +1,8 @@
+:root {
+  --color-cyber-blue: #00bfff; /* A bright, energetic blue */
+  --color-mystic-purple: #8a2be2; /* A deep, transformative purple */
+}
+
 .aboutWrapper {
   min-height: 100vh;
   color: var(--text-primary);
@@ -173,6 +178,53 @@
   font-family: var(--font-geist-mono);
 }
 
+/* --- NODE SPECIFIC STYLES --- */
+.rawDataNode {
+  border-color: var(--color-cyber-blue);
+  box-shadow: 0 0 8px var(--color-cyber-blue);
+}
+.rawDataNode .nodeIcon {
+  color: var(--color-cyber-blue);
+  filter: none;
+}
+.rawDataNode .nodeLabel {
+  color: var(--color-cyber-blue);
+}
+.rawDataNode:hover {
+  box-shadow: 0 0 20px var(--color-cyber-blue);
+}
+
+.refactorNode {
+  border-color: var(--color-mystic-purple);
+  box-shadow: 0 0 8px var(--color-mystic-purple);
+}
+.refactorNode .nodeIcon {
+  color: var(--color-mystic-purple);
+  filter: none;
+}
+.refactorNode .nodeLabel {
+  color: var(--color-mystic-purple);
+}
+.refactorNode:hover {
+  box-shadow: 0 0 20px var(--color-mystic-purple);
+}
+
+.deployNode {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 8px var(--accent-primary);
+}
+.deployNode .nodeIcon {
+  color: var(--accent-primary);
+  filter: none;
+}
+.deployNode .nodeLabel {
+  color: var(--accent-primary);
+}
+.deployNode:hover {
+  box-shadow: 0 0 20px var(--accent-primary);
+}
+
+
 /* --- CONNECTORS --- */
 .connectorWrapper {
   display: flex;
@@ -186,22 +238,19 @@
 
 .connectorLine {
   position: relative;
-  background: var(--border);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--accent-primary) 50%,
+    transparent 100%
+  );
+  background-size: 100% 200%; /* Height twice the line height for vertical animation */
+  background-position: 0% 0%;
   overflow: hidden;
   width: 2px;
   height: 60px;
   margin: 0.5rem 0;
-}
-
-.dataPacket {
-  position: absolute;
-  background: var(--accent-primary);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--accent-primary);
-  width: 2px;
-  height: 20px;
-  left: 0;
-  animation: flowVertical 2s infinite linear;
+  animation: flowVerticalGradient 3s infinite linear;
 }
 
 .connectorLabel {
@@ -254,37 +303,21 @@
 }
 
 /* --- KEYFRAMES --- */
-@keyframes flowHorizontal {
+@keyframes flowHorizontalGradient {
   0% {
-    left: 0;
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
+    background-position: 0% 0%;
   }
   100% {
-    left: 100%;
-    opacity: 0;
+    background-position: 200% 0%;
   }
 }
 
-@keyframes flowVertical {
+@keyframes flowVerticalGradient {
   0% {
-    top: 0;
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
+    background-position: 0% 0%;
   }
   100% {
-    top: 100%;
-    opacity: 0;
+    background-position: 0% 200%;
   }
 }
 
@@ -334,16 +367,16 @@
 
   .connectorLine {
     height: 2px;
-    width: auto;
-    flex-grow: 1;
+    width: 120px; /* Increased length for visibility */
     margin: 0 1rem;
-  }
-
-  .dataPacket {
-    width: 40px;
-    height: 2px;
-    top: 0;
-    left: auto; /* Reset left from mobile */
-    animation: flowHorizontal 2s infinite linear;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      var(--accent-primary) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%; /* Width twice the line width for horizontal animation */
+    background-position: 0% 0%;
+    animation: flowHorizontalGradient 3s infinite linear;
   }
 }

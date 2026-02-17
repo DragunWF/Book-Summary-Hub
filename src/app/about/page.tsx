@@ -27,7 +27,9 @@ export default function AboutPage() {
 
               <div className={styles.systemLogHeader}>
                 <header>
-                  <span className={styles.logMeta}>// System Log: v1.0.4</span>
+                  <span className={styles.logMeta}>
+                    {"//"} System Log: v1.0.4
+                  </span>
                   <h1 className={styles.logTitle}>
                     The Architecture of Knowledge
                   </h1>
@@ -65,7 +67,7 @@ export default function AboutPage() {
               <div className={styles.flowChart}>
                 {/* NODE 1: RAW DATA */}
                 <div className={styles.nodeWrapper}>
-                  <div className={styles.systemNode}>
+                  <div className={`${styles.systemNode} ${styles.rawDataNode}`}>
                     <span className={styles.nodeIcon}>📖</span>
                     <span className={styles.nodeLabel}>RAW_DATA</span>
                     <span className={styles.nodeMeta}>Input: Books</span>
@@ -74,15 +76,15 @@ export default function AboutPage() {
 
                 {/* CONNECTOR 1 */}
                 <div className={styles.connectorWrapper}>
-                  <div className={styles.connectorLine}>
-                    <div className={styles.dataPacket}></div>
-                  </div>
+                  <div className={styles.connectorLine}></div>
                   <span className={styles.connectorLabel}>Assimilate</span>
                 </div>
 
                 {/* NODE 2: REFACTOR */}
                 <div className={styles.nodeWrapper}>
-                  <div className={styles.systemNode}>
+                  <div
+                    className={`${styles.systemNode} ${styles.refactorNode}`}
+                  >
                     <span className={styles.nodeIcon}>🔮</span>
                     <span className={styles.nodeLabel}>REFACTOR</span>
                     <span className={styles.nodeMeta}>Process: Obsidian</span>
@@ -91,18 +93,13 @@ export default function AboutPage() {
 
                 {/* CONNECTOR 2 */}
                 <div className={styles.connectorWrapper}>
-                  <div className={styles.connectorLine}>
-                    <div
-                      className={styles.dataPacket}
-                      style={{ animationDelay: "1s" }}
-                    ></div>
-                  </div>
+                  <div className={styles.connectorLine}></div>
                   <span className={styles.connectorLabel}>Build</span>
                 </div>
 
                 {/* NODE 3: DEPLOY */}
                 <div className={styles.nodeWrapper}>
-                  <div className={styles.systemNode}>
+                  <div className={`${styles.systemNode} ${styles.deployNode}`}>
                     <span className={styles.nodeIcon}>🚀</span>
                     <span className={styles.nodeLabel}>DEPLOY</span>
                     <span className={styles.nodeMeta}>Output: The Hub</span>
