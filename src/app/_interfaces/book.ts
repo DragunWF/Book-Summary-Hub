@@ -10,7 +10,7 @@ export default interface Book {
     | "Philosophy"
     | "Business";
   rating: number; // 1-10
-  status: "Completed" | "In Progress" | "To Read";
   readTime: string;
   summary: string;
+  createdAt?: string; // Optional for now, will be mandatory later
 }

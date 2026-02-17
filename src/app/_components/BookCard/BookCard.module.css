@@ -5,17 +5,24 @@
   padding: 24px;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  height: 100%;
 }
 
 .bookCard:hover {
   transform: translateY(-4px);
-  border-color: var(--text-muted);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  /* border-color will be handled inline or via dynamic class in JS if needed, 
+     but here we set a base glow readiness */
 }
+
+/* 
+   The subtle background tint will be applied inline 
+   using a linear-gradient with the book's specific color 
+*/
 
 .cardHeader {
   display: flex;
@@ -34,10 +41,14 @@
   font-weight: 700;
   color: rgba(255,255,255,0.8);
   font-size: 0.8rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .cardMeta {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .cardTitle {
@@ -51,6 +62,15 @@
 .cardAuthor {
   font-size: 0.9rem;
   color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.cardDate {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .cardBody {
@@ -61,7 +81,7 @@
 .cardSummaryPreview {
   font-size: 0.9rem;
   color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -72,33 +92,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(255, 255, 255, 0.05); /* Subtler border */
   padding-top: 16px;
   margin-top: auto;
 }
 
-.statusBadge {
+.categoryBadge {
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-}
-
-.statusCompleted {
-  background-color: rgba(16, 185, 129, 0.15);
-  color: var(--accent-primary);
-}
-
-.statusProgress {
-  background-color: rgba(245, 158, 11, 0.15);
-  color: #f59e0b;
-}
-
-.statusToread {
   background-color: var(--bg-highlight);
   color: var(--text-secondary);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.bookCard:hover .categoryBadge {
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
 }
 
 .ratingBadge {
@@ -115,12 +129,4 @@
   height: 14px;
   fill: #eab308;
   color: #eab308;
-}
-
-.timeBadge {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.8rem;
-  color: var(--text-muted);
 }
