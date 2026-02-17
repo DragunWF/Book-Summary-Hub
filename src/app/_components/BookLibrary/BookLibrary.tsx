@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Search, Filter } from "lucide-react";
-import Book from "@/app/interfaces/book";
+import Book from "@/app/_interfaces/book";
 import BookCard from "@/app/_components/BookCard/BookCard";
 import styles from "./BookLibrary.module.css";
 
@@ -10,17 +10,13 @@ interface BookLibraryProps {
   bookSummaries: Book[];
 }
 
-export default function BookLibrary({
-  bookSummaries,
-}: BookLibraryProps) {
+export default function BookLibrary({ bookSummaries }: BookLibraryProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   // Categories derived from data
   const categories = useMemo(() => {
-    return Array.from(
-      new Set(bookSummaries.map((book) => book.category)),
-    );
+    return Array.from(new Set(bookSummaries.map((book) => book.category)));
   }, [bookSummaries]);
 
   // Filter Logic
@@ -81,9 +77,7 @@ export default function BookLibrary({
 
       <div className={styles.bookGrid}>
         {filteredBooks.length > 0 ? (
-          filteredBooks.map((book) => (
-            <BookCard key={book.id} book={book} />
-          ))
+          filteredBooks.map((book) => <BookCard key={book.id} book={book} />)
         ) : (
           <div
             style={{
@@ -93,13 +87,8 @@ export default function BookLibrary({
               color: "var(--text-muted)",
             }}
           >
-            <Filter
-              size={48}
-              style={{ marginBottom: "16px", opacity: 0.5 }}
-            />
-            <p>
-              No books found for your query. Try a different spell, Mage.
-            </p>
+            <Filter size={48} style={{ marginBottom: "16px", opacity: 0.5 }} />
+            <p>No books found for your query. Try a different spell, Mage.</p>
           </div>
         )}
       </div>

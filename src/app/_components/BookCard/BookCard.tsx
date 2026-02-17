@@ -1,6 +1,6 @@
 "use client";
 
-import Book from "@/app/interfaces/book";
+import Book from "@/app/_interfaces/book";
 import { BookOpen, Clock, Star } from "lucide-react";
 import styles from "./BookCard.module.css";
 import Link from "next/link";

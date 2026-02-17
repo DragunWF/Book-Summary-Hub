@@ -1,4 +1,4 @@
-import Book from "../interfaces/book";
+import Book from "../_interfaces/book";
 
 export const MOCK_SUMMARIES: Book[] = [
   {
