@@ -20,12 +20,14 @@ export default function NavHeader() {
           </Link>
         </span>
         <span className={styles.navLink}>
-          <Link href="/">About</Link>
+          <Link href="/about">About</Link>
         </span>
-        <button className={styles.magePortalBtn}>
-          <ShieldCheck size={16} />
-          Mage&apos;s Portal
-        </button>
+        <Link href="/admin/login" target="_blank">
+          <button className={styles.magePortalBtn}>
+            <ShieldCheck size={16} />
+            Mage&apos;s Portal
+          </button>
+        </Link>
       </div>
     </header>
   );
