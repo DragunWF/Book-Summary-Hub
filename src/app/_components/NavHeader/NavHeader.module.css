@@ -5,6 +5,8 @@
   padding: 24px 0;
   margin-bottom: 40px;
   border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 50;
 }
 
 .brand {
@@ -14,6 +16,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  z-index: 51; /* Ensure brand stays above mobile menu */
 }
 
 .brandIcon {
@@ -50,8 +53,6 @@
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.3s ease;
-  margin-top: auto;
-  align-self: flex-start;
 }
 
 .magePortalBtn:hover {
@@ -59,4 +60,54 @@
   color: var(--accent-primary);
   box-shadow: 0 0 15px var(--accent-glow);
   text-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* Mobile Menu Toggle Button */
+.menuToggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  z-index: 52; /* Above everything */
+  padding: 8px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .menuToggle {
+    display: block;
+  }
+
+  .navLinks {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--bg-deep); /* Use theme background */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 1px solid var(--border);
+  }
+
+  .navLinks.open {
+    transform: translateX(0);
+  }
+
+  /* Make links larger for touch targets */
+  .navLink {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .magePortalBtn {
+    font-size: 1.1rem;
+    padding: 12px 24px;
+    margin-top: 16px;
+  }
 }
