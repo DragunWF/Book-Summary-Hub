@@ -27,6 +27,9 @@ export default function NavHeader() {
 
       <div className={`${styles.navLinks} ${isOpen ? styles.open : ""}`}>
         <span className={styles.navLink} onClick={() => setIsOpen(false)}>
+          <Link href="/">Home</Link>
+        </span>
+        <span className={styles.navLink} onClick={() => setIsOpen(false)}>
           <Link href="/about">About</Link>
         </span>
         <span className={styles.navLink} onClick={() => setIsOpen(false)}>
