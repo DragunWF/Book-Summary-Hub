@@ -1,0 +1,30 @@
+.pageWrapper {
+  min-height: 100vh;
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.spellbookGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding-bottom: 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .spellbookGrid {
+    grid-template-columns: 280px 1fr 280px; /* Sidebar | Content | Meta/Actions */
+    gap: 3rem;
+    padding: 0 2rem 4rem;
+  }
+}
+
+.mainColumn {
+  padding-top: 2rem;
+  min-width: 0;
+}

@@ -1,4 +1,4 @@
-import BookSummaryDetailPrototype from "@/app/_components/prototypes/BookSummaryDetailPrototype";
+import BookSummaryView from "@/app/_components/BookSummary/BookSummaryView";
 
 export const metadata = {
   // TODO: Change this to the real title dynamically
@@ -8,7 +8,7 @@ export const metadata = {
 export default function Page() {
   return (
     <div>
-      <BookSummaryDetailPrototype />
+      <BookSummaryView />
     </div>
   );
 }

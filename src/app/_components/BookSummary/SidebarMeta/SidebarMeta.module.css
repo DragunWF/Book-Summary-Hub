@@ -1,0 +1,66 @@
+.metaSidebar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .metaSidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: sticky;
+    top: 2rem;
+    height: fit-content;
+    padding-top: 2rem;
+  }
+}
+
+.bookCoverCard {
+  width: 100%;
+  aspect-ratio: 2/3;
+  background: linear-gradient(135deg, #18181b 0%, #27272a 100%);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.actionButton {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btnPrimary {
+  background: var(--accent-primary);
+  color: var(--bg-deep);
+  border: none;
+}
+
+.btnPrimary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.btnSecondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.btnSecondary:hover {
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+  background: var(--bg-surface);
+}
