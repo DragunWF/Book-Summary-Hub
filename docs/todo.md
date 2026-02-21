@@ -7,6 +7,11 @@
 - [ ] Book summary list feature
 - [ ] Search book summary list feature
 
+## About Page
+
+- [x] UI Layout
+- [ ] Page content
+
 ## Individual Book Summary Page
 
 - [x] UI Layout
