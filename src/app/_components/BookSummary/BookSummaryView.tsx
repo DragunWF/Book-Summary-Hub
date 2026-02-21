@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./BookSummary.module.css";
 import NavHeader from "../NavHeader/NavHeader";
 import SidebarTOC from "./SidebarTOC/SidebarTOC";
@@ -56,7 +56,10 @@ export default function BookSummaryView() {
 
       <div className={styles.spellbookGrid}>
         {/* --- LEFT SIDEBAR: TOC --- */}
-        <SidebarTOC activeSection={activeSection} onSectionClick={scrollToSection} />
+        <SidebarTOC
+          activeSection={activeSection}
+          onSectionClick={scrollToSection}
+        />
 
         {/* --- MAIN CONTENT --- */}
         <main className={styles.mainColumn}>

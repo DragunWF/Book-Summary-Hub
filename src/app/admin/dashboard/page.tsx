@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -12,8 +12,6 @@ import {
   FileText,
   Zap,
   X,
-  Server,
-  Database
 } from "lucide-react";
 import styles from "./dashboard.module.css";
 
@@ -68,8 +66,8 @@ export default function AdminDashboard() {
   const [featuredBookId, setFeaturedBookId] = useState<string | null>(null);
 
   // Derived state: find the full book object if an ID is set
-  const featuredBook = featuredBookId 
-    ? MOCK_BOOKS.find((b) => b.id === featuredBookId) 
+  const featuredBook = featuredBookId
+    ? MOCK_BOOKS.find((b) => b.id === featuredBookId)
     : null;
 
   const toggleFeatured = (id: string) => {
@@ -110,11 +108,11 @@ export default function AdminDashboard() {
                 <h2 className={styles.heroTitle}>{featuredBook.title}</h2>
                 <div className={styles.heroMeta}>
                   <span>ID: #{featuredBook.id}</span>
-                  <span>//</span>
+                  <span>{"//"}</span>
                   <span>CAT: {featuredBook.category.toUpperCase()}</span>
                 </div>
               </div>
-              <button 
+              <button
                 className={styles.severHeroBtn}
                 onClick={() => setFeaturedBookId(null)}
                 title="Deactivate Hero Slot"
@@ -140,8 +138,11 @@ export default function AdminDashboard() {
               className={styles.searchInput}
             />
           </div>
-          
-          <Link href="/admin/dashboard/book-summary/new" style={{ textDecoration: 'none' }}>
+
+          <Link
+            href="/admin/dashboard/book-summary/new"
+            style={{ textDecoration: "none" }}
+          >
             <button className={styles.addButton}>
               <Plus size={14} />
               <span>Initialize Entry</span>
@@ -167,11 +168,11 @@ export default function AdminDashboard() {
             <tbody>
               {MOCK_BOOKS.map((book) => {
                 const isFeatured = book.id === featuredBookId;
-                
+
                 return (
-                  <tr 
-                    key={book.id} 
-                    className={`${styles.tr} ${isFeatured ? styles.activeRow : ''}`}
+                  <tr
+                    key={book.id}
+                    className={`${styles.tr} ${isFeatured ? styles.activeRow : ""}`}
                   >
                     <td className={`${styles.td} ${styles.idCell}`}>
                       #{book.id}
@@ -215,12 +216,15 @@ export default function AdminDashboard() {
                     </td>
                     <td className={styles.td} style={{ textAlign: "right" }}>
                       <div className={styles.actions}>
-                         <button
-                          className={`${styles.actionBtn} ${styles.feature} ${isFeatured ? styles.featureActive : ''}`}
+                        <button
+                          className={`${styles.actionBtn} ${styles.feature} ${isFeatured ? styles.featureActive : ""}`}
                           title={isFeatured ? "Deactivate Hero" : "Set as Hero"}
                           onClick={() => toggleFeatured(book.id)}
                         >
-                          <Zap size={16} fill={isFeatured ? "currentColor" : "none"} />
+                          <Zap
+                            size={16}
+                            fill={isFeatured ? "currentColor" : "none"}
+                          />
                         </button>
 
                         <Link href={`/admin/dashboard/book-summary/${book.id}`}>
@@ -231,7 +235,7 @@ export default function AdminDashboard() {
                             <Edit3 size={16} />
                           </button>
                         </Link>
-                        
+
                         <button
                           className={`${styles.actionBtn} ${styles.delete}`}
                           title="Delete Entry"
