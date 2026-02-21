@@ -42,7 +42,13 @@ export default async function Page({ params }: PageProps) {
   }
 
   return (
-    <div style={{ padding: 20 }}>
+    <div
+      style={{
+        padding: 20,
+        minHeight: "100vh",
+        backgroundColor: "#020617",
+      }}
+    >
       <BookForm
         initialData={bookData}
         onSave={handleSave}
