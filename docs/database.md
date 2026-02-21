@@ -12,7 +12,6 @@
   "rating": "number",
   "summary": "string",
   "fullContent": "string",
-  "dateRead": "string",
   "coverIcon": "string",
   "isPublished": "boolean"
 }

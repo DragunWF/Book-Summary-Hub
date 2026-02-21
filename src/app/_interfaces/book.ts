@@ -2,7 +2,7 @@ export default interface Book {
   id: string;
   title: string;
   author: string;
-  coverColor: string; // Placeholder for cover image
+  coverColor: string; // Hex color code
   category:
     | "Technical"
     | "Self-Improvement"
@@ -10,8 +10,10 @@ export default interface Book {
     | "Philosophy"
     | "Business";
   rating: number; // 1-10
-  readTime: string;
+  readTime?: string; // Optional legacy field
   summary: string;
-  createdAt?: string; // Optional for now, will be mandatory later
+  fullContent?: string; // Markdown content
+  coverIcon?: string; // Lucide icon name
+  createdAt?: string;
   isPublished?: boolean;
 }
