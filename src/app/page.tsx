@@ -11,7 +11,7 @@ export const metadata = {
 export default function Home() {
   return (
     <div className={styles.appBackground}>
-      <div className="container">
+      <div className="container" style={{ minHeight: "100vh" }}>
         <NavHeader />
 
         <HeroSection featuredBook={MOCK_SUMMARIES[0]} />
