@@ -1,0 +1,364 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import {
+  Save,
+  Trash2,
+  BookOpen,
+  ToggleLeft,
+  ToggleRight,
+  Star,
+  Hash,
+  Type,
+  User,
+  Tag,
+  Palette,
+  Calendar,
+  Clock,
+  FileText,
+} from "lucide-react";
+import Book from "@/app/_interfaces/book";
+import styles from "./BookForm.module.css";
+
+interface BookFormProps {
+  initialData?: Book;
+  onSave: (book: Book) => Promise<void> | void;
+  onDelete?: (id: string) => Promise<void> | void;
+}
+
+const DEFAULT_BOOK: Book = {
+  id: "", // Will be generated or passed
+  title: "",
+  author: "",
+  coverColor: "#00FF41",
+  category: "Technical",
+  rating: 1,
+  readTime: "",
+  summary: "",
+  fullContent: "",
+  dateRead: new Date().toISOString().split("T")[0],
+  coverIcon: "book-open",
+  isPublished: false,
+};
+
+const PRESET_COLORS = [
+  "#ef4444", // Red
+  "#f97316", // Orange
+  "#f59e0b", // Amber
+  "#00FF41", // Mage Green (Custom)
+  "#10b981", // Emerald
+  "#06b6d4", // Cyan
+  "#3b82f6", // Blue
+  "#8b5cf6", // Violet
+  "#d946ef", // Fuchsia
+  "#f43f5e", // Rose
+  "#64748b", // Slate
+];
+
+const CATEGORIES = [
+  "Technical",
+  "Self-Improvement",
+  "Fiction",
+  "Philosophy",
+  "Business",
+] as const;
+
+export default function BookForm({
+  initialData,
+  onSave,
+  onDelete,
+}: BookFormProps) {
+  const [formData, setFormData] = useState<Book>(DEFAULT_BOOK);
+  const [isDirty, setIsDirty] = useState(false);
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({ ...DEFAULT_BOOK, ...initialData });
+    }
+  }, [initialData]);
+
+  const handleChange = (field: keyof Book, value: any) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    setIsDirty(true);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(formData);
+    setIsDirty(false);
+  };
+
+  return (
+    <form className={styles.container} onSubmit={handleSubmit}>
+      {/* Sidebar: Metadata */}
+      <aside className={styles.sidebar}>
+        <div className={styles.header}>
+          <div className={styles.idDisplay}>
+            <Hash size={12} style={{ display: "inline", marginRight: 4 }} />
+            {formData.id || "NEW_ENTRY"}
+          </div>
+        </div>
+
+        <div className={styles.sectionTitle}>
+          <Tag size={14} />
+          <span>Core Data</span>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Title</label>
+          <div style={{ position: "relative" }}>
+            <Type
+              size={16}
+              style={{
+                position: "absolute",
+                left: 10,
+                top: 12,
+                color: "var(--text-muted)",
+              }}
+            />
+            <input
+              className={styles.input}
+              style={{ paddingLeft: 36 }}
+              type="text"
+              value={formData.title}
+              onChange={(e) => handleChange("title", e.target.value)}
+              placeholder="Book Title"
+              required
+            />
+          </div>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Author</label>
+          <div style={{ position: "relative" }}>
+            <User
+              size={16}
+              style={{
+                position: "absolute",
+                left: 10,
+                top: 12,
+                color: "var(--text-muted)",
+              }}
+            />
+            <input
+              className={styles.input}
+              style={{ paddingLeft: 36 }}
+              type="text"
+              value={formData.author}
+              onChange={(e) => handleChange("author", e.target.value)}
+              placeholder="Author Name"
+              required
+            />
+          </div>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Category</label>
+          <select
+            className={styles.select}
+            value={formData.category}
+            onChange={(e) => handleChange("category", e.target.value)}
+          >
+            {CATEGORIES.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <hr style={{ borderColor: "var(--border)", margin: "10px 0" }} />
+
+        <div className={styles.sectionTitle}>
+          <Palette size={14} />
+          <span>Aesthetics</span>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Cover Color</label>
+          <div className={styles.colorGrid}>
+            {PRESET_COLORS.map((color) => (
+              <div
+                key={color}
+                className={`${styles.colorSwatch} ${formData.coverColor === color ? styles.selected : ""}`}
+                style={{ backgroundColor: color }}
+                onClick={() => handleChange("coverColor", color)}
+                title={color}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Icon (Lucide Name)</label>
+          <input
+            className={styles.input}
+            type="text"
+            value={formData.coverIcon || ""}
+            onChange={(e) => handleChange("coverIcon", e.target.value)}
+            placeholder="e.g. book-open, code, cpu"
+          />
+        </div>
+
+        <hr style={{ borderColor: "var(--border)", margin: "10px 0" }} />
+
+        <div className={styles.sectionTitle}>
+          <Star size={14} />
+          <span>Rating & Status</span>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <div className={styles.ratingContainer}>
+            <label className={styles.label}>Rating (1-10)</label>
+            <span className={styles.ratingValue}>{formData.rating}/10</span>
+          </div>
+          <input
+            type="range"
+            min="1"
+            max="10"
+            step="1"
+            className={styles.rangeInput}
+            value={formData.rating}
+            onChange={(e) => handleChange("rating", parseInt(e.target.value))}
+          />
+        </div>
+
+        <div className={styles.toggleWrapper}>
+          <div className={styles.toggleLabel}>
+            <span className={styles.label} style={{ marginBottom: 2 }}>
+              Published Status
+            </span>
+            <span
+              className={`${styles.toggleStatus} ${formData.isPublished ? styles.statusPublished : styles.statusDraft}`}
+            >
+              {formData.isPublished ? "LIVE (VISIBLE)" : "DRAFT (HIDDEN)"}
+            </span>
+          </div>
+          <div
+            style={{
+              cursor: "pointer",
+              color: formData.isPublished
+                ? "var(--accent-primary)"
+                : "var(--text-muted)",
+            }}
+            onClick={() => handleChange("isPublished", !formData.isPublished)}
+          >
+            {formData.isPublished ? (
+              <ToggleRight size={32} />
+            ) : (
+              <ToggleLeft size={32} />
+            )}
+          </div>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Read Time (Legacy)</label>
+          <div style={{ position: "relative" }}>
+            <Clock
+              size={16}
+              style={{
+                position: "absolute",
+                left: 10,
+                top: 12,
+                color: "var(--text-muted)",
+              }}
+            />
+            <input
+              className={styles.input}
+              style={{ paddingLeft: 36 }}
+              type="text"
+              value={formData.readTime || ""}
+              onChange={(e) => handleChange("readTime", e.target.value)}
+              placeholder="e.g. 15 min read"
+            />
+          </div>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Date Read</label>
+          <div style={{ position: "relative" }}>
+            <Calendar
+              size={16}
+              style={{
+                position: "absolute",
+                left: 10,
+                top: 12,
+                color: "var(--text-muted)",
+              }}
+            />
+            <input
+              className={styles.input}
+              style={{ paddingLeft: 36 }}
+              type="date"
+              value={formData.dateRead || ""}
+              onChange={(e) => handleChange("dateRead", e.target.value)}
+            />
+          </div>
+        </div>
+      </aside>
+
+      {/* Main Stage: Content */}
+      <main className={styles.mainStage}>
+        <div className={styles.header}>
+          <div className={styles.sectionTitle}>
+            <FileText size={16} />
+            <span>Content Editor</span>
+          </div>
+
+          <div className={styles.actions}>
+            {onDelete && (
+              <button
+                type="button"
+                className={`${styles.btn} ${styles.btnGhost}`}
+                onClick={() => onDelete(formData.id)}
+              >
+                <Trash2 size={16} />
+                Incinerate
+              </button>
+            )}
+            <button
+              type="submit"
+              className={`${styles.btn} ${styles.btnPrimary}`}
+            >
+              <Save size={16} />
+              {isDirty ? "Save Changes*" : "Inscribe"}
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label className={styles.label}>Summary (Short)</label>
+          <textarea
+            className={styles.textarea}
+            value={formData.summary}
+            onChange={(e) => handleChange("summary", e.target.value)}
+            placeholder="A brief overview of the book..."
+            maxLength={300}
+          />
+          <div
+            style={{
+              textAlign: "right",
+              fontSize: "0.75rem",
+              color: "var(--text-muted)",
+            }}
+          >
+            {formData.summary.length}/300
+          </div>
+        </div>
+
+        <div
+          className={styles.inputGroup}
+          style={{ flex: 1, display: "flex", flexDirection: "column" }}
+        >
+          <label className={styles.label}>Full Content (Markdown)</label>
+          <textarea
+            className={`${styles.textarea} ${styles.markdownEditor}`}
+            value={formData.fullContent || ""}
+            onChange={(e) => handleChange("fullContent", e.target.value)}
+            placeholder="# Chapter 1..."
+          />
+        </div>
+      </main>
+    </form>
+  );
+}
