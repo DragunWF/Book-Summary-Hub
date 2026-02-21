@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link"; // Import Link for navigation
 import {
   Save,
   Trash2,
@@ -16,6 +17,7 @@ import {
   Calendar,
   Clock,
   FileText,
+  ChevronLeft, // Import ChevronLeft icon
 } from "lucide-react";
 import Book from "@/app/_interfaces/book";
 import styles from "./BookForm.module.css";
@@ -92,7 +94,9 @@ export default function BookForm({
     <form className={styles.container} onSubmit={handleSubmit}>
       {/* Sidebar: Metadata */}
       <aside className={styles.sidebar}>
-        <div className={styles.header}>
+        <div className={styles.sidebarHeader}>
+          {" "}
+          {/* Renamed from .header */}
           <div className={styles.idDisplay}>
             <Hash size={12} style={{ display: "inline", marginRight: 4 }} />
             {formData.id || "NEW_ENTRY"}
@@ -299,30 +303,43 @@ export default function BookForm({
 
       {/* Main Stage: Content */}
       <main className={styles.mainStage}>
-        <div className={styles.header}>
-          <div className={styles.sectionTitle}>
-            <FileText size={16} />
-            <span>Content Editor</span>
-          </div>
-
-          <div className={styles.actions}>
-            {onDelete && (
+        <div className={styles.mainHeader}>
+          {" "}
+          {/* Renamed from .header */}
+          {/* Back button */}
+          <Link
+            href="/admin/dashboard"
+            className={`${styles.btn} ${styles.btnGhost}`}
+          >
+            <ChevronLeft size={16} />
+            Back to Dashboard
+          </Link>
+          <div className={styles.mainHeaderContent}>
+            {" "}
+            {/* New wrapper for title and actions */}
+            <div className={styles.sectionTitle}>
+              <FileText size={16} />
+              <span>Content Editor</span>
+            </div>
+            <div className={styles.actions}>
+              {onDelete && (
+                <button
+                  type="button"
+                  className={`${styles.btn} ${styles.btnGhost}`}
+                  onClick={() => onDelete(formData.id)}
+                >
+                  <Trash2 size={16} />
+                  Incinerate
+                </button>
+              )}
               <button
-                type="button"
-                className={`${styles.btn} ${styles.btnGhost}`}
-                onClick={() => onDelete(formData.id)}
+                type="submit"
+                className={`${styles.btn} ${styles.btnPrimary}`}
               >
-                <Trash2 size={16} />
-                Incinerate
+                <Save size={16} />
+                {isDirty ? "Save Changes*" : "Inscribe"}
               </button>
-            )}
-            <button
-              type="submit"
-              className={`${styles.btn} ${styles.btnPrimary}`}
-            >
-              <Save size={16} />
-              {isDirty ? "Save Changes*" : "Inscribe"}
-            </button>
+            </div>
           </div>
         </div>
 

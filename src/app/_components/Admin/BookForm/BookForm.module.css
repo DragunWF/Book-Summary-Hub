@@ -139,8 +139,8 @@
   accent-color: var(--accent-primary);
 }
 
-/* Header & Actions */
-.header {
+/* Sidebar Header */
+.sidebarHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -154,6 +154,22 @@
   background: var(--bg-surface);
   padding: 4px 8px;
   border-radius: 4px;
+}
+
+/* Main Stage Header */
+.mainHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  position: relative; /* For potential absolute positioning of some elements later */
+}
+
+.mainHeaderContent {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Space between title and buttons */
+  margin-left: auto; /* Push content and actions to the right of the back button */
 }
 
 .actions {
@@ -232,5 +248,18 @@
   .sidebar, .mainStage {
     height: auto;
     overflow: visible;
+  }
+
+  .mainHeaderContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .mainHeader .actions {
+    width: 100%;
+    justify-content: flex-end;
   }
 }
