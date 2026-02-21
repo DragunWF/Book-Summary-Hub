@@ -102,7 +102,7 @@ export default function AdminDashboard() {
         <div className={styles.tableContainer}>
           <table className={styles.table}>
             <thead>
-              <tr>
+              <tr className={styles.tr}>
                 <th className={styles.th}>ID</th>
                 <th className={styles.th}>Status</th>
                 <th className={styles.th}>Title</th>
@@ -156,7 +156,7 @@ export default function AdminDashboard() {
                   <td className={`${styles.td} ${styles.dateCell}`}>
                     {book.lastEdited}
                   </td>
-                  <td className={styles.td}>
+                  <td className={styles.td} style={{ textAlign: "right" }}>
                     <div className={styles.actions}>
                       <button
                         className={`${styles.actionBtn} ${styles.edit}`}
