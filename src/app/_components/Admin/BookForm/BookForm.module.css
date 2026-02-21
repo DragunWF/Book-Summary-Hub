@@ -7,85 +7,101 @@
   padding: 24px;
   height: calc(100vh - 80px); /* Adjust based on navbar height */
   overflow: hidden;
+  /* Removed background-color to blend with parent container */
 }
 
-.sidebar {
-  background: var(--bg-base);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  overflow-y: auto;
-  position: relative;
-}
-
-.mainStage {
-  background: var(--bg-base);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+/* Sidebar & Main Stage Containers - matching .consoleFrame */
+.sidebar, .mainStage {
+  background-color: rgba(2, 6, 23, 0.95); /* Slate 950 base with slight transparency */
+  border: 1px solid #1e293b; /* Slate 800 border */
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+  border-radius: 4px; /* Slight rounding for the frame */
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 24px;
   overflow-y: auto;
+  position: relative;
 }
 
 /* Typography */
 .sectionTitle {
-  font-size: 0.875rem;
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem; /* Smaller, sharper like .terminalTitle */
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
-  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  /* Removed margin-bottom, padding-bottom and border-bottom for better alignment in headers */
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.inputGroup .sectionTitle { /* Specific style for section titles within input groups */
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1e293b;
+  margin-bottom: 12px;
 }
 
 /* Inputs */
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .label {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
+/* Matching .searchInput style but adapted for form fields */
 .input, .textarea, .select {
-  background: var(--bg-surface);
-  border: 1px solid var(--border);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #334155; /* Slate 700 */
   color: var(--text-primary);
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
-  font-family: inherit;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
+  padding: 10px 0; /* Removing horizontal padding to match underline style */
+  border-radius: 0;
+  font-family: var(--font-geist-mono); /* Monospace across inputs */
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease;
   width: 100%;
 }
 
 .input:focus, .textarea:focus, .select:focus {
   outline: none;
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 2px var(--accent-glow);
+  border-bottom-color: var(--accent-primary);
+  box-shadow: none; /* Removed the glow box shadow, keeping it clean */
+}
+
+.input::placeholder, .textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
 }
 
 .input:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  font-family: var(--font-geist-mono, monospace);
-  letter-spacing: -0.02em;
+  border-bottom-style: dashed;
 }
 
 .textarea {
   min-height: 100px;
   resize: vertical;
   line-height: 1.6;
+  background-color: rgba(15, 23, 42, 0.3); /* Slight background for textareas */
+  padding: 10px; /* Restore padding for textareas */
+  border: 1px solid #334155; /* Full border for textareas */
+}
+
+.textarea:focus {
+  border-color: var(--accent-primary);
 }
 
 .markdownEditor {
@@ -93,6 +109,7 @@
   font-family: var(--font-geist-mono, monospace);
   min-height: 400px;
   resize: none;
+  font-size: 0.9rem;
 }
 
 /* Color Picker */
@@ -100,24 +117,26 @@
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  padding: 8px 0;
 }
 
 .colorSwatch {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 2px solid transparent;
+  width: 24px;
+  height: 24px;
+  border-radius: 2px; /* Square/Sharp corners like pixel art/terminal */
+  border: 1px solid #334155;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .colorSwatch:hover {
   transform: scale(1.1);
+  border-color: var(--text-primary);
 }
 
 .colorSwatch.selected {
   border-color: var(--text-primary);
-  box-shadow: 0 0 0 2px var(--bg-base), 0 0 0 4px var(--accent-primary);
+  box-shadow: 0 0 0 2px var(--bg-deep), 0 0 0 3px var(--accent-primary);
 }
 
 /* Rating Slider */
@@ -137,41 +156,47 @@
 .rangeInput {
   flex: 1;
   accent-color: var(--accent-primary);
+  height: 2px;
+  background: #334155;
 }
 
-/* Sidebar Header */
+/* Headers */
 .sidebarHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #1e293b;
 }
 
 .idDisplay {
   font-family: var(--font-geist-mono, monospace);
   color: var(--text-muted);
-  font-size: 0.8rem;
-  background: var(--bg-surface);
+  font-size: 0.75rem;
+  background: rgba(15, 23, 42, 0.5);
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: 2px;
+  border: 1px solid #1e293b;
 }
 
-/* Main Stage Header */
 .mainHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
-  position: relative; /* For potential absolute positioning of some elements later */
+  padding-bottom: 12px;
+  border-bottom: 1px solid #1e293b;
 }
 
 .mainHeaderContent {
   display: flex;
   align-items: center;
-  gap: 20px; /* Space between title and buttons */
-  margin-left: auto; /* Push content and actions to the right of the back button */
+  gap: 20px;
+  margin-left: auto;
 }
 
+/* Buttons */
 .actions {
   display: flex;
   gap: 12px;
@@ -181,45 +206,65 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 20px;
-  border-radius: var(--radius-sm);
+  padding: 0.6rem 1.2rem;
+  border-radius: 2px; /* Sharp corners */
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: none;
-  font-size: 0.9rem;
+  border: 1px solid transparent;
 }
 
+/* Matching .addButton style */
 .btnPrimary {
-  background: var(--accent-primary);
-  color: var(--bg-deep);
+  background: transparent;
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }
 
 .btnPrimary:hover {
-  background: var(--accent-hover);
-  transform: translateY(-1px);
+  background: var(--accent-primary);
+  color: #020617; /* Slate 950 text on hover */
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 
+/* Matching .navLink or .actionBtn style */
 .btnGhost {
   background: transparent;
   color: var(--text-muted);
-  border: 1px solid var(--border);
+  border-color: transparent;
 }
 
 .btnGhost:hover {
-  color: #ef4444; /* Red for delete */
-  border-color: #ef4444;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-/* Published Toggle */
+.btnDelete { /* Specific style for delete button */
+  background: transparent;
+  border-color: #ef4444; /* Red for delete */
+  color: #ef4444;
+}
+
+.btnDelete:hover {
+  background: #ef4444;
+  color: #020617;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+
+/* Published Toggle - simplified to match badge style */
 .toggleWrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--bg-surface);
+  background: rgba(15, 23, 42, 0.3);
   padding: 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+  border-radius: 2px;
+  border: 1px solid #1e293b;
 }
 
 .toggleLabel {
@@ -228,14 +273,15 @@
 }
 
 .toggleStatus {
-  font-size: 0.75rem;
+  font-family: var(--font-geist-mono);
+  font-size: 0.65rem;
   text-transform: uppercase;
-  font-weight: bold;
   letter-spacing: 0.05em;
+  margin-top: 4px;
 }
 
 .statusPublished { color: var(--accent-primary); }
-.statusDraft { color: var(--text-muted); }
+.statusDraft { color: #fbbf24; } /* Amber 400 */
 
 /* Responsive */
 @media (max-width: 1024px) {

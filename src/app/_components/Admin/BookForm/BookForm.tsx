@@ -95,17 +95,19 @@ export default function BookForm({
       {/* Sidebar: Metadata */}
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
-          {" "}
-          {/* Renamed from .header */}
           <div className={styles.idDisplay}>
             <Hash size={12} style={{ display: "inline", marginRight: 4 }} />
             {formData.id || "NEW_ENTRY"}
           </div>
         </div>
 
-        <div className={styles.sectionTitle}>
-          <Tag size={14} />
-          <span>Core Data</span>
+        <div className={styles.inputGroup}>
+          {" "}
+          {/* Wrap section title to apply specific border/padding */}
+          <div className={styles.sectionTitle}>
+            <Tag size={14} />
+            <span>Core Data</span>
+          </div>
         </div>
 
         <div className={styles.inputGroup}>
@@ -173,9 +175,13 @@ export default function BookForm({
 
         <hr style={{ borderColor: "var(--border)", margin: "10px 0" }} />
 
-        <div className={styles.sectionTitle}>
-          <Palette size={14} />
-          <span>Aesthetics</span>
+        <div className={styles.inputGroup}>
+          {" "}
+          {/* Wrap section title to apply specific border/padding */}
+          <div className={styles.sectionTitle}>
+            <Palette size={14} />
+            <span>Aesthetics</span>
+          </div>
         </div>
 
         <div className={styles.inputGroup}>
@@ -206,9 +212,13 @@ export default function BookForm({
 
         <hr style={{ borderColor: "var(--border)", margin: "10px 0" }} />
 
-        <div className={styles.sectionTitle}>
-          <Star size={14} />
-          <span>Rating & Status</span>
+        <div className={styles.inputGroup}>
+          {" "}
+          {/* Wrap section title to apply specific border/padding */}
+          <div className={styles.sectionTitle}>
+            <Star size={14} />
+            <span>Rating & Status</span>
+          </div>
         </div>
 
         <div className={styles.inputGroup}>
@@ -304,8 +314,6 @@ export default function BookForm({
       {/* Main Stage: Content */}
       <main className={styles.mainStage}>
         <div className={styles.mainHeader}>
-          {" "}
-          {/* Renamed from .header */}
           {/* Back button */}
           <Link
             href="/admin/dashboard"
@@ -315,17 +323,18 @@ export default function BookForm({
             Back to Dashboard
           </Link>
           <div className={styles.mainHeaderContent}>
-            {" "}
-            {/* New wrapper for title and actions */}
             <div className={styles.sectionTitle}>
+              {" "}
+              {/* No margin-left: auto here */}
               <FileText size={16} />
               <span>Content Editor</span>
             </div>
+
             <div className={styles.actions}>
               {onDelete && (
                 <button
                   type="button"
-                  className={`${styles.btn} ${styles.btnGhost}`}
+                  className={`${styles.btn} ${styles.btnDelete}`}
                   onClick={() => onDelete(formData.id)}
                 >
                   <Trash2 size={16} />
