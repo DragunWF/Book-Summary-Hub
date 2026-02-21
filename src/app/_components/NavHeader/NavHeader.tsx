@@ -41,11 +41,7 @@ export default function NavHeader() {
             Mage&apos;s Website
           </Link>
         </span>
-        <Link
-          href="/admin/login"
-          target="_blank"
-          onClick={() => setIsOpen(false)}
-        >
+        <Link href="/admin/login" onClick={() => setIsOpen(false)}>
           <button className={styles.magePortalBtn}>
             <ShieldCheck size={16} />
             Mage&apos;s Portal
