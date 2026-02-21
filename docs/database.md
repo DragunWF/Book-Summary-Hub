@@ -13,7 +13,8 @@
   "summary": "string",
   "fullContent": "string",
   "dateRead": "string",
-  "coverIcon": "string"
+  "coverIcon": "string",
+  "isPublished": "boolean"
 }
 ```
 
