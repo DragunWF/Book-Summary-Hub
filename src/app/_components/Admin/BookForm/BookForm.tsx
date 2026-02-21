@@ -287,28 +287,6 @@ export default function BookForm({
             />
           </div>
         </div>
-
-        <div className={styles.inputGroup}>
-          <label className={styles.label}>Date Read</label>
-          <div style={{ position: "relative" }}>
-            <Calendar
-              size={16}
-              style={{
-                position: "absolute",
-                left: 10,
-                top: 12,
-                color: "var(--text-muted)",
-              }}
-            />
-            <input
-              className={styles.input}
-              style={{ paddingLeft: 36 }}
-              type="date"
-              value={formData.dateRead || ""}
-              onChange={(e) => handleChange("dateRead", e.target.value)}
-            />
-          </div>
-        </div>
       </aside>
 
       {/* Main Stage: Content */}
@@ -338,7 +316,7 @@ export default function BookForm({
                   onClick={() => onDelete(formData.id)}
                 >
                   <Trash2 size={16} />
-                  Incinerate
+                  Delete
                 </button>
               )}
               <button
@@ -346,7 +324,7 @@ export default function BookForm({
                 className={`${styles.btn} ${styles.btnPrimary}`}
               >
                 <Save size={16} />
-                {isDirty ? "Save Changes*" : "Inscribe"}
+                {isDirty ? "Save Changes*" : "Save"}
               </button>
             </div>
           </div>
