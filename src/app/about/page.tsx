@@ -12,7 +12,10 @@ export default function AboutPage() {
       {/* Immersive Background */}
       <Background />
 
-      <div className="container" style={{ position: "relative", zIndex: 10, minHeight: "100vh" }}>
+      <div
+        className="container"
+        style={{ position: "relative", zIndex: 10, minHeight: "100vh" }}
+      >
         <NavHeader />
 
         <div className={styles.contentContainer}>

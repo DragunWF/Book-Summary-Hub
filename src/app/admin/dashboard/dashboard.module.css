@@ -1,0 +1,266 @@
+.dashboardContainer {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #020617; /* Slate 950 - Absolute Base to match console */
+  color: var(--text-primary);
+  font-family: var(--font-geist-mono);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.consoleFrame {
+  width: 100%;
+  max-width: 1200px;
+  /* Slate 950 base with slight transparency */
+  background-color: rgba(2, 6, 23, 0.95);
+  /* Slate 800 border */
+  border: 1px solid #1e293b;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px; /* Slight rounding for the frame */
+}
+
+/* Terminal Header */
+.terminalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  /* Slate 900 with opacity */
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  border-bottom: 1px solid #1e293b; /* Slate 800 */
+}
+
+.terminalTitle {
+  font-family: var(--font-geist-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.navLink:hover {
+  color: var(--accent-primary);
+}
+
+/* Toolbar (Search + Add) */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #1e293b; /* Slate 800 */
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 400px;
+  padding-bottom: 0.5rem;
+  /* Slate 700 for input underline */
+  border-bottom: 1px solid #334155; 
+  transition: border-color 0.2s ease;
+}
+
+.searchContainer:focus-within {
+  border-bottom-color: var(--accent-primary);
+}
+
+.searchIcon {
+  color: var(--text-muted);
+  width: 18px;
+  height: 18px;
+}
+
+.searchContainer:focus-within .searchIcon {
+  color: var(--accent-primary);
+}
+
+.searchInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: var(--font-geist-mono);
+  font-size: 0.875rem;
+  width: 100%;
+}
+
+.searchInput::placeholder {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--accent-primary);
+  color: var(--accent-primary);
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addButton:hover {
+  background: var(--accent-primary);
+  color: #020617; /* Slate 950 text on hover */
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+/* Table */
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  /* Removed display: flex to fix table layout */
+}
+
+.th {
+  padding: 1rem 1.5rem;
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid #1e293b; /* Slate 800 */
+}
+
+.tr {
+  border-bottom: 1px solid #1e293b; /* Slate 800 */
+  transition: background-color 0.2s ease;
+  position: relative;
+}
+
+.tr:hover {
+  background-color: rgba(16, 185, 129, 0.05); /* Slight green tint */
+}
+
+/* The left glow bar effect on hover */
+.tr::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--accent-primary);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tr:hover::before {
+  opacity: 1;
+}
+
+.td {
+  padding: 1.25rem 1.5rem;
+  vertical-align: middle;
+}
+
+.idCell {
+  font-family: var(--font-geist-mono);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.titleCell {
+  font-family: "Times New Roman", Times, serif; /* Grimoire feel */
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+}
+
+.dateCell {
+  font-family: var(--font-geist-mono);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+/* Status Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  font-family: var(--font-geist-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid transparent;
+}
+
+.badgePublished {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.badgeDraft {
+  border-color: #fbbf24; /* Amber 400 */
+  color: #fbbf24;
+  background-color: rgba(251, 191, 36, 0.1);
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.actionBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color 0.2s ease, transform 0.2s ease;
+  padding: 0.25rem;
+}
+
+.actionBtn:hover {
+  transform: translateY(-1px);
+}
+
+.actionBtn.edit:hover {
+  color: var(--text-primary);
+}
+
+.actionBtn.delete:hover {
+  color: #ef4444; /* Red 500 */
+}
