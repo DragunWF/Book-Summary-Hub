@@ -13,4 +13,5 @@ export default interface Book {
   readTime: string;
   summary: string;
   createdAt?: string; // Optional for now, will be mandatory later
+  isPublished?: boolean;
 }
