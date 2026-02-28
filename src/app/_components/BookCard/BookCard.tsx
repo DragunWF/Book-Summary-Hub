@@ -74,7 +74,7 @@ export default function BookCard({ book }: BookCardProps) {
           </span>
 
           <div className={styles.ratingBadge}>
-            <span>{book.rating}/10</span>
+            <span>{book.rating}/5</span>
             <Star className={styles.ratingIcon} />
           </div>
         </div>
