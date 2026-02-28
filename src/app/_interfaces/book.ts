@@ -3,12 +3,7 @@ export default interface Book {
   title: string;
   author: string;
   coverColor: string; // Hex color code
-  category:
-    | "Technical"
-    | "Self-Improvement"
-    | "Fiction"
-    | "Philosophy"
-    | "Business";
+  category: string;
   rating: number; // 1-10
   readTime?: string; // Optional legacy field
   summary: string;
