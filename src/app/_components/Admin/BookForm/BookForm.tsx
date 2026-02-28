@@ -14,7 +14,6 @@ import {
   User,
   Tag,
   Palette,
-  Calendar,
   Clock,
   FileText,
   ChevronLeft, // Import ChevronLeft icon
@@ -70,16 +69,10 @@ export default function BookForm({
   onSave,
   onDelete,
 }: BookFormProps) {
-  const [formData, setFormData] = useState<Book>(DEFAULT_BOOK);
+  const [formData, setFormData] = useState<Book>(initialData ? { ...DEFAULT_BOOK, ...initialData } : DEFAULT_BOOK);
   const [isDirty, setIsDirty] = useState(false);
 
-  useEffect(() => {
-    if (initialData) {
-      setFormData({ ...DEFAULT_BOOK, ...initialData });
-    }
-  }, [initialData]);
-
-  const handleChange = (field: keyof Book, value: any) => {
+  const handleChange = (field: keyof Book, value: string | number | boolean) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     setIsDirty(true);
   };
