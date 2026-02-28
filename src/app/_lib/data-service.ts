@@ -11,3 +11,35 @@ export async function getBookSummaries(): Promise<Book[]> {
 
   return (data as Book[]) || [];
 }
+
+export async function getFeaturedBookSummary(): Promise<Book | null> {
+  const { data: settingsData, error: settingsError } = await supabase
+    .from("settings")
+    .select("featuredBookId")
+    .maybeSingle();
+
+  if (settingsError) {
+    console.log("Error fetching the featured book summary ID:", settingsError);
+    return null;
+  } else if (!settingsData) {
+    console.log("No featured book summary ID found in settings");
+    return null;
+  }
+
+  const featuredBookId = settingsData?.featuredBookId;
+
+  if (!featuredBookId) return null;
+
+  const { data: bookData, error: bookError } = await supabase
+    .from("bookSummaries")
+    .select("*")
+    .eq("id", featuredBookId)
+    .maybeSingle();
+
+  if (bookError) {
+    console.error("Error fetching featured book details:", bookError);
+    return null;
+  }
+
+  return bookData as Book;
+}

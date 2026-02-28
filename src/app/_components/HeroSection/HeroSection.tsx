@@ -1,16 +1,46 @@
 "use client";
 
-import { Zap, ChevronRight, Feather } from "lucide-react";
+import { Zap, ChevronRight, Feather, BookOpen } from "lucide-react";
 import styles from "./HeroSection.module.css";
 import Link from "next/link";
 import { getCategoryColor } from "@/app/constants/bookCategories";
 import type Book from "@/app/_interfaces/book";
 
 interface HeroSectionProps {
-  featuredBook: Book;
+  featuredBook: Book | null;
 }
 
 export default function HeroSection({ featuredBook }: HeroSectionProps) {
+  if (!featuredBook) {
+    return (
+      <section className={styles.heroSection} style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        minHeight: "300px",
+        backgroundColor: "var(--bg-base)",
+        borderRadius: "var(--radius-lg)",
+        border: "1px dashed var(--border)",
+        margin: "40px 0"
+      }}>
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "16px",
+          maxWidth: "400px",
+          color: "var(--text-muted)"
+        }}>
+          <BookOpen size={48} style={{ opacity: 0.6 }} />
+          <p style={{ fontSize: "1.1rem" }}>
+            Featured book summary is not available for display at the moment. Please try again later.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   const categoryStyle = getCategoryColor(featuredBook.category);
 
   return (
