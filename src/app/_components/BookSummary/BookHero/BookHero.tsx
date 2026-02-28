@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import styles from "./BookHero.module.css";
 import Link from "next/link";
 import { Star, Clock, Hash } from "lucide-react";
