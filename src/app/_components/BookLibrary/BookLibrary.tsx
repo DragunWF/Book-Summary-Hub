@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, ChevronLeft, ChevronRight } from "lucide-react";
 import Book from "@/app/_interfaces/book";
 import BookCard from "@/app/_components/BookCard/BookCard";
 import styles from "./BookLibrary.module.css";
@@ -10,9 +10,12 @@ interface BookLibraryProps {
   bookSummaries: Book[];
 }
 
+const ITEMS_PER_PAGE = 6;
+
 export default function BookLibrary({ bookSummaries }: BookLibraryProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Categories derived from data
   const categories = useMemo(() => {
@@ -31,6 +34,14 @@ export default function BookLibrary({ bookSummaries }: BookLibraryProps) {
       return matchesSearch && matchesCategory;
     });
   }, [searchQuery, selectedCategory, bookSummaries]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredBooks.length / ITEMS_PER_PAGE);
+
+  const paginatedBooks = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredBooks.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredBooks, currentPage]);
 
   return (
     <div>
@@ -51,14 +62,20 @@ export default function BookLibrary({ bookSummaries }: BookLibraryProps) {
               placeholder="Search titles, authors..."
               className={styles.searchInput}
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
             />
           </div>
 
           <div className={styles.categoryChips}>
             <button
               className={`${styles.chip} ${selectedCategory === null ? styles.chipActive : ""}`}
-              onClick={() => setSelectedCategory(null)}
+              onClick={() => {
+                setSelectedCategory(null);
+                setCurrentPage(1);
+              }}
             >
               All
             </button>
@@ -66,7 +83,10 @@ export default function BookLibrary({ bookSummaries }: BookLibraryProps) {
               <button
                 key={cat}
                 className={`${styles.chip} ${selectedCategory === cat ? styles.chipActive : ""}`}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => {
+                  setSelectedCategory(cat);
+                  setCurrentPage(1);
+                }}
               >
                 {cat}
               </button>
@@ -77,7 +97,7 @@ export default function BookLibrary({ bookSummaries }: BookLibraryProps) {
 
       <div className={styles.bookGrid}>
         {filteredBooks.length > 0 ? (
-          filteredBooks.map((book) => <BookCard key={book.id} book={book} />)
+          paginatedBooks.map((book) => <BookCard key={book.id} book={book} />)
         ) : (
           <div
             style={{
@@ -92,6 +112,32 @@ export default function BookLibrary({ bookSummaries }: BookLibraryProps) {
           </div>
         )}
       </div>
+
+      {totalPages > 1 && (
+        <div className={styles.pagination}>
+          
+          <button
+            className={styles.pageButton}
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          >
+            <ChevronLeft size={20} />
+            Previous
+          </button>
+          <span className={styles.pageInfo}>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            className={styles.pageButton}
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          >
+            Next
+            <ChevronRight size={20} />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
+
