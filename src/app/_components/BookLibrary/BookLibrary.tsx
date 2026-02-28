@@ -115,7 +115,6 @@ export default function BookLibrary({ bookSummaries }: BookLibraryProps) {
 
       {totalPages > 1 && (
         <div className={styles.pagination}>
-          
           <button
             className={styles.pageButton}
             disabled={currentPage === 1}
@@ -130,7 +129,9 @@ export default function BookLibrary({ bookSummaries }: BookLibraryProps) {
           <button
             className={styles.pageButton}
             disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
           >
             Next
             <ChevronRight size={20} />
@@ -140,4 +141,3 @@ export default function BookLibrary({ bookSummaries }: BookLibraryProps) {
     </div>
   );
 }
-
