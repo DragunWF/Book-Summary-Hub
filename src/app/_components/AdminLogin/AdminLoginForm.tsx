@@ -3,13 +3,14 @@
 import { useState, FormEvent } from "react";
 import VaultCard from "@/app/_components/AdminLogin/VaultCard/VaultCard";
 import LoginForm from "@/app/_components/AdminLogin/LoginForm/LoginForm";
+import { adminSignIn } from "@/app/_lib/actions";
 
 export default function AdminLoginForm() {
   const [identity, setIdentity] = useState("");
   const [passphrase, setPassphrase] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false); // Using this for visual feedback for now
+  const [success, setSuccess] = useState(false); // Using this for visual feedback for now
   const [isHoveringButton, setIsHoveringButton] = useState(false);
 
   const onIdentityChange = (value: string) => {
@@ -22,30 +23,25 @@ export default function AdminLoginForm() {
     if (error) setError(false);
   };
 
-  const handleAuth = (e: FormEvent) => {
+  const handleAuth = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(false);
+    setSuccess(false);
 
-    // Validation
-    if (!identity || !passphrase) {
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+
+    try {
+      await adminSignIn(formData);
+      setSuccess(true); // This might not be reached if redirect happens
+    } catch (err) {
+      console.error("Login failed:", err);
       setError(true);
       // Remove error class after animation plays to allow re-trigger
-      setTimeout(() => setError(false), 500);
-      return;
-    }
-
-    // Mock Authentication Process
-    setIsLoading(true);
-
-    setTimeout(() => {
+      setTimeout(() => setError(false), 1000); // Give time for visual error to show
+    } finally {
       setIsLoading(false);
-      setSuccess(true);
-
-      // Reset for demo purposes after the "zoom" effect finishes
-      setTimeout(() => {
-        // In a real app, this would redirect
-        console.log("Redirecting to Admin Dashboard...");
-      }, 2000);
-    }, 1500);
+    }
   };
 
   return (

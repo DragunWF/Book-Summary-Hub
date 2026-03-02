@@ -1,3 +1,8 @@
+"use server";
+
+import { createClient } from "@/app/_lib/supabase-server";
+import { redirect } from "next/navigation";
+
 // Book Summaries
 
 export async function createBookSummary() {
@@ -40,4 +45,26 @@ export async function postComment(bookId: number, comment: string) {
 
 export async function deleteComment() {
   return;
+}
+
+// Admin Authentication
+export async function adminSignIn(formData: FormData) {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    // In a real app, you might want to return the error message
+    // or handle it more gracefully. For now, we'll just throw.
+    throw new Error(error.message);
+  }
+
+  // Redirect to admin dashboard on successful login
+  redirect("/admin/dashboard");
 }

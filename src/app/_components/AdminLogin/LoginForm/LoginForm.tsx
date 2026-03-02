@@ -33,6 +33,7 @@ export default function LoginForm({
         <div className={styles.inputWrapper}>
           <input
             id="identity"
+            name="email" // Added name attribute
             type="text"
             value={identity}
             onChange={(e) => setIdentity(e.target.value)}
@@ -50,6 +51,7 @@ export default function LoginForm({
         <div className={styles.inputWrapper}>
           <input
             id="passphrase"
+            name="password" // Added name attribute
             type="password"
             value={passphrase}
             onChange={(e) => setPassphrase(e.target.value)}
