@@ -4,8 +4,12 @@ import styles from "./BookHero.module.css";
 import Link from "next/link";
 import { Star, Clock, Bookmark } from "lucide-react";
 import Book from "@/app/_interfaces/book";
+import { calculateReadingTime } from "@/app/_lib/utils";
 
 export default function BookHero({ book }: { book: Book }) {
+  const readingTimeMinutes = calculateReadingTime(book.fullContent);
+  const minuteWord = readingTimeMinutes > 1 ? "mins" : "min";
+
   return (
     <>
       <div className={styles.breadcrumbs}>
@@ -20,11 +24,16 @@ export default function BookHero({ book }: { book: Book }) {
         <div className={styles.statsRow}>
           <div className={`${styles.statItem} ${styles.highlight}`}>
             <Star size={14} fill="currentColor" />
-            <span>{book.rating ? `${book.rating.toFixed(1)} / 5.0` : 'N/A'}</span>
+            <span>
+              {book.rating ? `${book.rating.toFixed(1)} / 5.0` : "N/A"}
+            </span>
           </div>
           <div className={styles.statItem}>
             <Clock size={14} />
-            <span>{book.readTime || 'N/A'}</span>
+            <span>
+              {readingTimeMinutes >= 1 ? readingTimeMinutes : "N/A"}
+              {` ${minuteWord}`}
+            </span>
           </div>
           <div className={styles.statItem}>
             <Bookmark size={14} />
