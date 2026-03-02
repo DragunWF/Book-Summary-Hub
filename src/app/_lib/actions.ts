@@ -6,20 +6,42 @@ import { revalidatePath } from "next/cache";
 import {
   setFeaturedBookSummaryId,
   clearFeaturedBookSelection,
+  createBookSummary as createBookSummaryService,
+  updateBookSummary as updateBookSummaryService,
+  deleteBookSummary as deleteBookSummaryService,
 } from "@/app/_lib/data-service";
+import Book from "@/app/_interfaces/book";
 
 // Book Summaries
 
-export async function createBookSummary() {
-  return;
+export async function createBookSummaryAction(book: Book) {
+  const result = await createBookSummaryService(book);
+  if (result) {
+    revalidatePath("/admin/dashboard");
+    redirect("/admin/dashboard");
+  } else {
+    throw new Error("Failed to create book summary");
+  }
 }
 
-export async function updateBookSummary() {
-  return;
+export async function updateBookSummaryAction(bookId: string, book: Book) {
+  const result = await updateBookSummaryService(bookId, book);
+  if (result) {
+    revalidatePath("/admin/dashboard");
+    redirect("/admin/dashboard");
+  } else {
+    throw new Error("Failed to update book summary");
+  }
 }
 
-export async function deleteBookSummary() {
-  return;
+export async function deleteBookSummaryAction(id: string) {
+  const success = await deleteBookSummaryService(id);
+  if (success) {
+    revalidatePath("/admin/dashboard");
+    redirect("/admin/dashboard");
+  } else {
+    throw new Error("Failed to delete book summary");
+  }
 }
 
 export async function archiveBookSummary() {

@@ -17,14 +17,15 @@ import {
   Clock,
   FileText,
   ChevronLeft, // Import ChevronLeft icon
+  Loader2,
 } from "lucide-react";
 import Book from "@/app/_interfaces/book";
 import styles from "./BookForm.module.css";
 
 interface BookFormProps {
-  initialData?: Book | null; // Changed to allow null
-  // onSave: (book: Book) => Promise<void> | void; // Removed
-  // onDelete?: (id: string) => Promise<void> | void; // Removed
+  initialData?: Book | null;
+  onSave: (book: Book) => Promise<void> | void;
+  onDelete?: (id: string) => Promise<void> | void;
 }
 
 const DEFAULT_BOOK: Book = {
@@ -34,10 +35,8 @@ const DEFAULT_BOOK: Book = {
   coverColor: "#00FF41",
   category: "Technical",
   rating: 1,
-  readTime: "",
   summary: "",
   fullContent: "",
-  dateRead: new Date().toISOString().split("T")[0],
   coverIcon: "book-open",
   isPublished: false,
 };
@@ -66,8 +65,8 @@ const CATEGORIES = [
 
 export default function BookForm({
   initialData,
-  // onSave, // Removed
-  // onDelete, // Removed
+  onSave,
+  onDelete,
 }: BookFormProps) {
   // Use useEffect to update formData when initialData changes, for "new" to "edit" transition if it happens.
   useEffect(() => {
@@ -79,23 +78,46 @@ export default function BookForm({
     setIsDirty(false); // Reset dirty state on initial load/data change
   }, [initialData]);
 
-
-  const [formData, setFormData] = useState<Book>(initialData ? { ...DEFAULT_BOOK, ...initialData } : DEFAULT_BOOK);
+  const [formData, setFormData] = useState<Book>(
+    initialData ? { ...DEFAULT_BOOK, ...initialData } : DEFAULT_BOOK,
+  );
   const [isDirty, setIsDirty] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleChange = (field: keyof Book, value: string | number | boolean) => {
+  const handleChange = (
+    field: keyof Book,
+    value: string | number | boolean,
+  ) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     setIsDirty(true);
   };
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   onSave(formData);
-  //   setIsDirty(false);
-  // };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+    try {
+      await onSave(formData);
+      setIsDirty(false);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!onDelete || !formData.id) return;
+    if (confirm("Are you sure you want to delete this book summary?")) {
+      setIsDeleting(true);
+      try {
+        await onDelete(formData.id);
+      } finally {
+        setIsDeleting(false);
+      }
+    }
+  };
 
   return (
-    <form className={styles.container} /* onSubmit={handleSubmit} */> {/* onSubmit removed */}
+    <form className={styles.container} onSubmit={handleSubmit}>
       {/* Sidebar: Metadata */}
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
@@ -134,7 +156,7 @@ export default function BookForm({
               onChange={(e) => handleChange("title", e.target.value)}
               placeholder="Book Title"
               required
-              readOnly // Make fields read-only
+              disabled={isSaving || isDeleting}
             />
           </div>
         </div>
@@ -159,7 +181,7 @@ export default function BookForm({
               onChange={(e) => handleChange("author", e.target.value)}
               placeholder="Author Name"
               required
-              readOnly // Make fields read-only
+              disabled={isSaving || isDeleting}
             />
           </div>
         </div>
@@ -170,7 +192,7 @@ export default function BookForm({
             className={styles.select}
             value={formData.category}
             onChange={(e) => handleChange("category", e.target.value)}
-            disabled // Make fields read-only
+            disabled={isSaving || isDeleting}
           >
             {CATEGORIES.map((cat) => (
               <option key={cat} value={cat}>
@@ -198,8 +220,12 @@ export default function BookForm({
               <div
                 key={color}
                 className={`${styles.colorSwatch} ${formData.coverColor === color ? styles.selected : ""}`}
-                style={{ backgroundColor: color }}
-                // onClick={() => handleChange("coverColor", color)} // Disable click
+                style={{
+                  backgroundColor: color,
+                  pointerEvents: isSaving || isDeleting ? "none" : "auto",
+                  opacity: isSaving || isDeleting ? 0.5 : 1,
+                }}
+                onClick={() => handleChange("coverColor", color)}
                 title={color}
               />
             ))}
@@ -214,7 +240,7 @@ export default function BookForm({
             value={formData.coverIcon || ""}
             onChange={(e) => handleChange("coverIcon", e.target.value)}
             placeholder="e.g. book-open, code, cpu"
-            readOnly // Make fields read-only
+            disabled={isSaving || isDeleting}
           />
         </div>
 
@@ -231,18 +257,18 @@ export default function BookForm({
 
         <div className={styles.inputGroup}>
           <div className={styles.ratingContainer}>
-            <label className={styles.label}>Rating (1-10)</label>
-            <span className={styles.ratingValue}>{formData.rating}/10</span>
+            <label className={styles.label}>Rating (1-5)</label>
+            <span className={styles.ratingValue}>{formData.rating}/5</span>
           </div>
           <input
             type="range"
             min="1"
-            max="10"
+            max="5"
             step="1"
             className={styles.rangeInput}
             value={formData.rating}
             onChange={(e) => handleChange("rating", parseInt(e.target.value))}
-            disabled // Make fields read-only
+            disabled={isSaving || isDeleting}
           />
         </div>
 
@@ -259,12 +285,17 @@ export default function BookForm({
           </div>
           <div
             style={{
-              cursor: "default", // Changed cursor
+              cursor: isSaving || isDeleting ? "not-allowed" : "pointer",
               color: formData.isPublished
                 ? "var(--accent-primary)"
                 : "var(--text-muted)",
+              opacity: isSaving || isDeleting ? 0.5 : 1,
             }}
-            // onClick={() => handleChange("isPublished", !formData.isPublished)} // Disable click
+            onClick={() =>
+              !isSaving &&
+              !isDeleting &&
+              handleChange("isPublished", !formData.isPublished)
+            }
           >
             {formData.isPublished ? (
               <ToggleRight size={32} />
@@ -273,32 +304,7 @@ export default function BookForm({
             )}
           </div>
         </div>
-
-        <div className={styles.inputGroup}>
-          <label className={styles.label}>Read Time (Legacy)</label>
-          <div style={{ position: "relative" }}>
-            <Clock
-              size={16}
-              style={{
-                position: "absolute",
-                left: 10,
-                top: 12,
-                color: "var(--text-muted)",
-              }}
-            />
-            <input
-              className={styles.input}
-              style={{ paddingLeft: 36 }}
-              type="text"
-              value={formData.readTime || ""}
-              onChange={(e) => handleChange("readTime", e.target.value)}
-              placeholder="e.g. 15 min read"
-              readOnly // Make fields read-only
-            />
-          </div>
-        </div>
       </aside>
-
       {/* Main Stage: Content */}
       <main className={styles.mainStage}>
         <div className={styles.mainHeader}>
@@ -306,6 +312,10 @@ export default function BookForm({
           <Link
             href="/admin/dashboard"
             className={`${styles.btn} ${styles.btnGhost}`}
+            style={{
+              pointerEvents: isSaving || isDeleting ? "none" : "auto",
+              opacity: isSaving || isDeleting ? 0.5 : 1,
+            }}
           >
             <ChevronLeft size={16} />
             Back to Dashboard
@@ -319,24 +329,33 @@ export default function BookForm({
             </div>
 
             <div className={styles.actions}>
-              {/* onSave and onDelete buttons removed */}
-              {/* {onDelete && (
+              {onDelete && (
                 <button
                   type="button"
                   className={`${styles.btn} ${styles.btnDelete}`}
-                  onClick={() => onDelete(formData.id)}
+                  onClick={handleDelete}
+                  disabled={isSaving || isDeleting}
                 >
-                  <Trash2 size={16} />
-                  Delete
+                  {isDeleting ? (
+                    <Loader2 size={16} className={styles.spin} />
+                  ) : (
+                    <Trash2 size={16} />
+                  )}
+                  {isDeleting ? "Deleting..." : "Delete"}
                 </button>
               )}
               <button
                 type="submit"
                 className={`${styles.btn} ${styles.btnPrimary}`}
+                disabled={isSaving || isDeleting || (!isDirty && !!initialData)}
               >
-                <Save size={16} />
-                {isDirty ? "Save Changes*" : "Save"}
-              </button> */}
+                {isSaving ? (
+                  <Loader2 size={16} className={styles.spin} />
+                ) : (
+                  <Save size={16} />
+                )}
+                {isSaving ? "Saving..." : isDirty ? "Save Changes*" : "Save"}
+              </button>
             </div>
           </div>
         </div>
@@ -349,7 +368,7 @@ export default function BookForm({
             onChange={(e) => handleChange("summary", e.target.value)}
             placeholder="A brief overview of the book..."
             maxLength={300}
-            readOnly // Make fields read-only
+            disabled={isSaving || isDeleting}
           />
           <div
             style={{
@@ -372,7 +391,7 @@ export default function BookForm({
             value={formData.fullContent || ""}
             onChange={(e) => handleChange("fullContent", e.target.value)}
             placeholder="# Chapter 1..."
-            readOnly // Make fields read-only
+            disabled={isSaving || isDeleting}
           />
         </div>
       </main>

@@ -1,25 +1,41 @@
 import BookForm from "@/app/_components/Admin/BookForm/BookForm";
-import { getBookSummaryById } from "@/app/_lib/data-service"; // Import real data service
-import { notFound } from "next/navigation"; // Keep notFound
-import Book from "@/app/_interfaces/book"; // Keep Book interface import
+import { getBookSummaryById } from "@/app/_lib/data-service";
+import { notFound } from "next/navigation";
+import Book from "@/app/_interfaces/book";
+import {
+  createBookSummaryAction,
+  updateBookSummaryAction,
+  deleteBookSummaryAction,
+} from "@/app/_lib/actions";
 
 interface PageProps {
-  params: { bookId: string }; // params are not a Promise in Next.js 14/15
+  params: { bookId: string };
 }
 
 export default async function Page({ params }: PageProps) {
   const { bookId } = await params;
-  let bookData: Book | null = null; // Initialize to null
+  let bookData: Book | null = null;
 
   if (bookId !== "new") {
-    bookData = await getBookSummaryById(bookId); // Fetch real data
+    bookData = await getBookSummaryById(bookId);
     if (!bookData) {
-      notFound(); // If book not found, render 404
+      notFound();
     }
   }
 
-  // HandleSave and handleDelete are removed as per instruction: "Do not implement the editing of a book summary yet."
-  // BookForm props will be adjusted to reflect this.
+  const handleSave = async (book: Book) => {
+    "use server";
+    if (bookId === "new") {
+      await createBookSummaryAction(book);
+    } else {
+      await updateBookSummaryAction(bookId, book);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    "use server";
+    await deleteBookSummaryAction(id);
+  };
 
   return (
     <div
@@ -31,7 +47,8 @@ export default async function Page({ params }: PageProps) {
     >
       <BookForm
         initialData={bookData}
-        // onSave and onDelete props are removed
+        onSave={handleSave}
+        onDelete={bookId !== "new" ? handleDelete : undefined}
       />
     </div>
   );

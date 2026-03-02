@@ -35,10 +35,14 @@ export async function getBookSummariesForAdmin(): Promise<Book[]> {
 }
 
 export async function createBookSummary(book: Book) {
-  const { id, createdAt, ...newBook } = book; // Remove id and createdAt as they are often DB-generated
+  const { id, createdAt, ...newBook } = book; // Remove existing id and createdAt
+
+  // Supabase automatically generates the id and createAt fields
+  const payload = { ...newBook };
+
   const { data, error } = await supabase
     .from(bookSummaryTable)
-    .insert(newBook)
+    .insert(payload)
     .select()
     .single();
 
