@@ -1,14 +1,37 @@
 import BookSummaryView from "@/app/_components/BookSummary/BookSummaryView";
+import { getBookSummaryById } from "@/app/_lib/data-service";
+import { notFound } from "next/navigation";
 
-export const metadata = {
-  // TODO: Change this to the real title dynamically
-  title: "[Book Title] | Book Summary",
-};
+interface PageProps {
+  params: Promise<{ bookId: string }>;
+}
 
-export default function Page() {
+export async function generateMetadata({ params }: PageProps) {
+  const { bookId } = await params;
+  const book = await getBookSummaryById(bookId);
+
+  if (!book) {
+    return {
+      title: "Book Not Found | Book Summary",
+    };
+  }
+
+  return {
+    title: `${book.title} | Book Summary`,
+  };
+}
+
+export default async function Page({ params }: PageProps) {
+  const { bookId } = await params;
+  const book = await getBookSummaryById(bookId);
+
+  if (!book) {
+    notFound();
+  }
+
   return (
     <div>
-      <BookSummaryView />
+      <BookSummaryView book={book} />
     </div>
   );
 }

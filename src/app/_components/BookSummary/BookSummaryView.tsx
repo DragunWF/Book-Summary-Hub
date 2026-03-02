@@ -8,8 +8,9 @@ import SidebarMeta from "./SidebarMeta/SidebarMeta";
 import BookHero from "./BookHero/BookHero";
 import BookMarkdownContent from "./BookMarkdownContent/BookMarkdownContent";
 import CommentsSection from "./CommentsSection/CommentsSection";
+import Book from "@/app/_interfaces/book";
 
-export default function BookSummaryView() {
+export default function BookSummaryView({ book }: { book: Book }) {
   const [activeSection, setActiveSection] = useState("introduction");
 
   // --- SCROLL SPY LOGIC ---
@@ -63,13 +64,13 @@ export default function BookSummaryView() {
 
         {/* --- MAIN CONTENT --- */}
         <main className={styles.mainColumn}>
-          <BookHero />
-          <BookMarkdownContent />
+          <BookHero book={book} />
+          <BookMarkdownContent book={book} />
           <CommentsSection />
         </main>
 
         {/* --- RIGHT SIDEBAR: META/ACTIONS --- */}
-        <SidebarMeta />
+        <SidebarMeta book={book} />
       </div>
     </div>
   );

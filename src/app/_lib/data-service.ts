@@ -43,3 +43,18 @@ export async function getFeaturedBookSummary(): Promise<Book | null> {
 
   return bookData as Book;
 }
+
+export async function getBookSummaryById(id: string): Promise<Book | null> {
+  const { data, error } = await supabase
+    .from("bookSummaries")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error fetching book summary:", error);
+    return null;
+  }
+
+  return data as Book;
+}
