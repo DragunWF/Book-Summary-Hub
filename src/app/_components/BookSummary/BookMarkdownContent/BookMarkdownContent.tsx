@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import styles from "./BookMarkdownContent.module.css";
 import Book from "@/app/_interfaces/book";
 import MarkdownRenderer from "@/app/_lib/markdown-renderer";

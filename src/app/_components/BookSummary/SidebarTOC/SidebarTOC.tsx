@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import styles from "./SidebarTOC.module.css";
 import { BookOpen } from "lucide-react";
 
@@ -9,7 +8,10 @@ interface SidebarTOCProps {
   onSectionClick: (id: string) => void;
 }
 
-export default function SidebarTOC({ activeSection, onSectionClick }: SidebarTOCProps) {
+export default function SidebarTOC({
+  activeSection,
+  onSectionClick,
+}: SidebarTOCProps) {
   const sections = [
     { id: "introduction", label: "Introduction" },
     { id: "key-concepts", label: "Key Concepts" },
