@@ -17,7 +17,7 @@
 - [x] UI Layout
 - [x] Book info display
 - [x] Markdown rendering
-- [ ] Reading time calculation
+- [x] Reading time calculation
 - [x] Dynamic table of content headers
 - [ ] Comment on summary feature
 
