@@ -18,7 +18,7 @@
 - [x] Book info display
 - [x] Markdown rendering
 - [ ] Reading time calculation
-- [ ] Dynamic table of content headers
+- [x] Dynamic table of content headers
 - [ ] Comment on summary feature
 
 ## Admin Login Page
