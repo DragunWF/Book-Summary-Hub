@@ -32,7 +32,9 @@
 - [x] UI Layout
 - [x] Book summaries display
 - [x] Search book summary by title feature
-- [ ] Set featured book summary
+- [x] Featured book summary features
+  - [x] Set featured book summary
+  - [x] Clear featured book summary
 - [ ] Book summaries CRUD operations
   - [ ] Create book summary feature
   - [ ] Update book summary feature
