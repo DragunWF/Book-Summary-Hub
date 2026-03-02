@@ -270,6 +270,26 @@
   box-shadow: 0 0 15px var(--accent-glow);
 }
 
+.searchButton {
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  border: 1px solid #334155; /* Slate 700 */
+  color: var(--text-muted);
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 1rem; /* Space from input */
+}
+
+.searchButton:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background: rgba(16, 185, 129, 0.05);
+}
+
 /* Table */
 .tableContainer {
   width: 100%;

@@ -22,27 +22,29 @@ export default function DashboardToolbar({
     setSearchTerm(initialSearchQuery);
   }, [initialSearchQuery]);
 
-  const handleSearch = (
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLInputElement>,
-  ) => {
-    const value = (event.target as HTMLInputElement).value;
-    setSearchTerm(value);
-
-    if (
-      event.type === "keydown" &&
-      (event as React.KeyboardEvent).key === "Enter"
-    ) {
-      const current = new URLSearchParams(Array.from(searchParams.entries()));
-      if (value) {
-        current.set("query", value);
-        current.set("page", "1"); // Reset page to 1 on new search
-      } else {
-        current.delete("query");
-      }
-      router.push(`${pathname}?${current.toString()}`);
+  const executeSearch = (term: string) => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    if (term) {
+      current.set("query", term);
+      current.set("page", "1"); // Reset page to 1 on new search
+    } else {
+      current.delete("query");
     }
+    router.push(`${pathname}?${current.toString()}`);
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      executeSearch(searchTerm);
+    }
+  };
+
+  const handleSearchButtonClick = () => {
+    executeSearch(searchTerm);
   };
 
   const handleBlur = () => {
@@ -50,14 +52,7 @@ export default function DashboardToolbar({
     // from what's currently in the URL, to avoid unnecessary navigation.
     const currentQuery = searchParams.get("query") || "";
     if (searchTerm !== currentQuery) {
-      const current = new URLSearchParams(Array.from(searchParams.entries()));
-      if (searchTerm) {
-        current.set("query", searchTerm);
-        current.set("page", "1"); // Reset page to 1 on new search
-      } else {
-        current.delete("query");
-      }
-      router.push(`${pathname}?${current.toString()}`);
+      executeSearch(searchTerm);
     }
   };
 
@@ -70,10 +65,16 @@ export default function DashboardToolbar({
           placeholder="> query_database..."
           className={styles.searchInput}
           value={searchTerm}
-          onChange={handleSearch}
-          onKeyDown={handleSearch}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           onBlur={handleBlur}
         />
+        <button
+          className={styles.searchButton}
+          onClick={handleSearchButtonClick}
+        >
+          Search
+        </button>
       </div>
 
       <Link
