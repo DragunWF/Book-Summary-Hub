@@ -34,6 +34,48 @@ export async function getBookSummariesForAdmin(): Promise<Book[]> {
   return (data as Book[]) || [];
 }
 
+export async function createBookSummary(book: Book) {
+  const { id, createdAt, ...newBook } = book; // Remove id and createdAt as they are often DB-generated
+  const { data, error } = await supabase
+    .from(bookSummaryTable)
+    .insert(newBook)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error creating book summary:", error);
+    return null;
+  }
+  return data as Book;
+}
+
+export async function updateBookSummary(bookId: string, book: Book) {
+  // Ensure we don't try to update the ID or createdAt with the provided book object
+  const { id, createdAt, ...updatedBookData } = book;
+  const { data, error } = await supabase
+    .from(bookSummaryTable)
+    .update(updatedBookData)
+    .eq("id", bookId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error updating book summary:", error);
+    return null;
+  }
+  return data as Book;
+}
+
+export async function deleteBookSummary(id: string) {
+  const { error } = await supabase.from(bookSummaryTable).delete().eq("id", id);
+
+  if (error) {
+    console.error("Error deleting book summary:", error);
+    return false;
+  }
+  return true;
+}
+
 export async function getPaginatedBookSummariesForAdmin(
   page: number = 1,
   pageSize: number = 10,
