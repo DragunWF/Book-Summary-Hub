@@ -24,8 +24,8 @@
 ## Admin Login Page
 
 - [x] UI Layout
-- [ ] Admin account feature
-- [ ] User authentication
+- [x] Admin account feature
+- [x] User authentication
 
 ## Admin Dashboard Page
 
