@@ -46,7 +46,7 @@ export default async function AdminDashboard({ searchParams }: PageProps) {
             <form action={signOut} className={styles.navLink}>
               <button type="submit" className={styles.navLinkButton}>
                 <LogOut size={14} />
-                <span>Sever Connection</span>
+                <span>Logout</span>
               </button>
             </form>
           </nav>

@@ -37,7 +37,7 @@ export default function LoginForm({
             type="text"
             value={identity}
             onChange={(e) => setIdentity(e.target.value)}
-            placeholder="USER_ID"
+            placeholder="USER_EMAIL"
             autoComplete="off"
             disabled={isLoading || success}
           />
