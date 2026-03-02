@@ -11,10 +11,21 @@ interface PageProps {
 
 export default async function AdminDashboard({ searchParams }: PageProps) {
   const resolvedSearchParams = await searchParams;
-  const page = typeof resolvedSearchParams.page === "string" ? parseInt(resolvedSearchParams.page, 10) : 1;
+  const page =
+    typeof resolvedSearchParams.page === "string"
+      ? parseInt(resolvedSearchParams.page, 10)
+      : 1;
+  const query =
+    typeof resolvedSearchParams.query === "string"
+      ? resolvedSearchParams.query
+      : "";
   const pageSize = 10;
-  
-  const { books, count } = await getPaginatedBookSummariesForAdmin(page, pageSize);
+
+  const { books, count } = await getPaginatedBookSummariesForAdmin(
+    page,
+    pageSize,
+    query,
+  );
   const totalPages = Math.ceil(count / pageSize) || 1;
 
   return (
@@ -38,7 +49,12 @@ export default async function AdminDashboard({ searchParams }: PageProps) {
         </header>
 
         {/* Client Components */}
-        <DashboardClient books={books} currentPage={page} totalPages={totalPages} />
+        <DashboardClient
+          books={books}
+          currentPage={page}
+          totalPages={totalPages}
+          searchQuery={query}
+        />
       </div>
     </div>
   );

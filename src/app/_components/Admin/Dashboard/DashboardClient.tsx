@@ -10,9 +10,15 @@ interface DashboardClientProps {
   books: Book[];
   currentPage: number;
   totalPages: number;
+  searchQuery: string;
 }
 
-export default function DashboardClient({ books, currentPage, totalPages }: DashboardClientProps) {
+export default function DashboardClient({
+  books,
+  currentPage,
+  totalPages,
+  searchQuery,
+}: DashboardClientProps) {
   const [featuredBookId, setFeaturedBookId] = useState<string | null>(null);
 
   const featuredBook = featuredBookId
@@ -29,7 +35,7 @@ export default function DashboardClient({ books, currentPage, totalPages }: Dash
         featuredBook={featuredBook}
         onClear={() => setFeaturedBookId(null)}
       />
-      <DashboardToolbar />
+      <DashboardToolbar initialSearchQuery={searchQuery} />
       <DashboardTable
         books={books}
         featuredBookId={featuredBookId}

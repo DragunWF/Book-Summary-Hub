@@ -36,16 +36,22 @@ export async function getBookSummariesForAdmin(): Promise<Book[]> {
 
 export async function getPaginatedBookSummariesForAdmin(
   page: number = 1,
-  pageSize: number = 10
+  pageSize: number = 10,
+  query: string = "",
 ): Promise<{ books: Book[]; count: number }> {
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
 
-  const { data, error, count } = await supabase
+  let queryBuilder = supabase
     .from(bookSummaryTable)
     .select("*", { count: "exact" })
-    .order("createdAt", { ascending: false })
-    .range(from, to);
+    .order("createdAt", { ascending: false });
+
+  if (query) {
+    queryBuilder = queryBuilder.ilike("title", `%${query}%`);
+  }
+
+  const { data, error, count } = await queryBuilder.range(from, to);
 
   if (error) {
     console.error("Error fetching paginated book summaries:", error);
