@@ -5,7 +5,7 @@ const bookSummaryTable = "bookSummaries";
 const settingsTable = "settings";
 
 // Note for self: For future usage
-const commentsTable = "comments";
+// const commentsTable = "comments";
 
 export async function getBookSummaries(): Promise<Book[]> {
   const { data, error } = await supabase.from(bookSummaryTable).select("*");
