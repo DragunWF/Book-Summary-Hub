@@ -3,9 +3,9 @@
 ## Home Page
 
 - [x] UI Layout
-- [ ] Featured book summary feature
-- [ ] Book summary list feature
-- [ ] Search book summary list feature
+- [x] Featured book summary feature
+- [x] Book summary list feature
+- [x] Search book summary list feature
 
 ## About Page
 
@@ -15,7 +15,8 @@
 ## Individual Book Summary Page
 
 - [x] UI Layout
-- [ ] Book info display
+- [x] Book info display
+- [ ] Markdown rendering
 - [ ] Comment on summary feature
 
 ## Admin Login Page
