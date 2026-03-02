@@ -30,7 +30,8 @@
 ## Admin Dashboard Page
 
 - [x] UI Layout
-- [ ] Book summaries display
+- [x] Book summaries display
+- [x] Search book summary by title feature
 - [ ] Set featured book summary
 - [ ] Book summaries CRUD operations
   - [ ] Create book summary feature
