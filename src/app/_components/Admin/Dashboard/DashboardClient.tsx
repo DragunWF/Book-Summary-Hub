@@ -6,7 +6,13 @@ import DashboardHero from "./DashboardHero";
 import DashboardToolbar from "./DashboardToolbar";
 import DashboardTable from "./DashboardTable";
 
-export default function DashboardClient({ books }: { books: Book[] }) {
+interface DashboardClientProps {
+  books: Book[];
+  currentPage: number;
+  totalPages: number;
+}
+
+export default function DashboardClient({ books, currentPage, totalPages }: DashboardClientProps) {
   const [featuredBookId, setFeaturedBookId] = useState<string | null>(null);
 
   const featuredBook = featuredBookId
@@ -28,6 +34,8 @@ export default function DashboardClient({ books }: { books: Book[] }) {
         books={books}
         featuredBookId={featuredBookId}
         onToggleFeatured={toggleFeatured}
+        currentPage={currentPage}
+        totalPages={totalPages}
       />
     </>
   );

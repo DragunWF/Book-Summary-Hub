@@ -1,4 +1,11 @@
-import { Edit3, Trash2, FileText, Zap } from "lucide-react";
+import {
+  Edit3,
+  Trash2,
+  FileText,
+  Zap,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import Link from "next/link";
 import styles from "@/app/admin/dashboard/dashboard.module.css";
 import Book from "@/app/_interfaces/book";
@@ -7,12 +14,16 @@ interface DashboardTableProps {
   books: Book[];
   featuredBookId: string | null;
   onToggleFeatured: (id: string) => void;
+  currentPage: number;
+  totalPages: number;
 }
 
 export default function DashboardTable({
   books,
   featuredBookId,
   onToggleFeatured,
+  currentPage,
+  totalPages,
 }: DashboardTableProps) {
   return (
     <div className={styles.tableContainer}>
@@ -113,6 +124,27 @@ export default function DashboardTable({
           })}
         </tbody>
       </table>
+
+      {/* Pagination Controls */}
+      <div className={styles.paginationContainer}>
+        <Link
+          href={currentPage > 1 ? `?page=${currentPage - 1}` : "#"}
+          className={`${styles.paginationBtn} ${currentPage <= 1 ? styles.paginationDisabled : ""}`}
+        >
+          <ChevronLeft size={16} />
+          <span>PREV</span>
+        </Link>
+        <span className={styles.paginationInfo}>
+          PAGE {currentPage} OF {totalPages}
+        </span>
+        <Link
+          href={currentPage < totalPages ? `?page=${currentPage + 1}` : "#"}
+          className={`${styles.paginationBtn} ${currentPage >= totalPages ? styles.paginationDisabled : ""}`}
+        >
+          <span>NEXT</span>
+          <ChevronRight size={16} />
+        </Link>
+      </div>
     </div>
   );
 }

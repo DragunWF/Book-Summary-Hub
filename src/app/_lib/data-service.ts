@@ -34,6 +34,27 @@ export async function getBookSummariesForAdmin(): Promise<Book[]> {
   return (data as Book[]) || [];
 }
 
+export async function getPaginatedBookSummariesForAdmin(
+  page: number = 1,
+  pageSize: number = 10
+): Promise<{ books: Book[]; count: number }> {
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
+  const { data, error, count } = await supabase
+    .from(bookSummaryTable)
+    .select("*", { count: "exact" })
+    .order("createdAt", { ascending: false })
+    .range(from, to);
+
+  if (error) {
+    console.error("Error fetching paginated book summaries:", error);
+    return { books: [], count: 0 };
+  }
+
+  return { books: (data as Book[]) || [], count: count || 0 };
+}
+
 export async function getFeaturedBookSummary(): Promise<Book | null> {
   const { data: settingsData, error: settingsError } = await supabase
     .from(settingsTable)

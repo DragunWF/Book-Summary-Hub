@@ -426,3 +426,49 @@
 .actionBtn.delete:hover {
   color: #ef4444; /* Red 500 */
 }
+
+/* Pagination */
+.paginationContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-top: 1px solid #1e293b; /* Slate 800 */
+}
+
+.paginationBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid #334155;
+  color: var(--text-muted);
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.paginationBtn:not(.paginationDisabled):hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.paginationDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.paginationInfo {
+  font-family: var(--font-geist-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.1em;
+}

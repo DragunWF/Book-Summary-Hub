@@ -2,11 +2,20 @@ import Link from "next/link";
 import { Globe, LogOut } from "lucide-react";
 import styles from "./dashboard.module.css";
 import { signOut } from "@/app/_lib/actions";
-import { getBookSummariesForAdmin } from "@/app/_lib/data-service";
+import { getPaginatedBookSummariesForAdmin } from "@/app/_lib/data-service";
 import DashboardClient from "../../_components/Admin/Dashboard/DashboardClient";
 
-export default async function AdminDashboard() {
-  const books = await getBookSummariesForAdmin();
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function AdminDashboard({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
+  const page = typeof resolvedSearchParams.page === "string" ? parseInt(resolvedSearchParams.page, 10) : 1;
+  const pageSize = 10;
+  
+  const { books, count } = await getPaginatedBookSummariesForAdmin(page, pageSize);
+  const totalPages = Math.ceil(count / pageSize) || 1;
 
   return (
     <div className={styles.dashboardContainer}>
@@ -29,7 +38,7 @@ export default async function AdminDashboard() {
         </header>
 
         {/* Client Components */}
-        <DashboardClient books={books} />
+        <DashboardClient books={books} currentPage={page} totalPages={totalPages} />
       </div>
     </div>
   );
