@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import styles from "./SidebarTOC.module.css";
 import { BookOpen } from "lucide-react";
 
@@ -21,6 +21,31 @@ export default function SidebarTOC({
   onSectionClick,
   sections,
 }: SidebarTOCProps) {
+  const processedSections = useMemo(() => {
+    const result = [];
+    const levelStack: number[] = [];
+
+    for (const section of sections) {
+      // Pop levels from stack that are greater than or equal to current section level
+      while (
+        levelStack.length > 0 &&
+        levelStack[levelStack.length - 1] >= section.level
+      ) {
+        levelStack.pop();
+      }
+      // Push current level to stack
+      levelStack.push(section.level);
+
+      // The indentation level is simply the index in the stack
+      result.push({
+        ...section,
+        indentLevel: Math.max(0, levelStack.length - 1),
+      });
+    }
+
+    return result;
+  }, [sections]);
+
   if (!sections || sections.length === 0) {
     return null; // Do not render if there are no sections
   }
@@ -32,11 +57,11 @@ export default function SidebarTOC({
       </div>
       <nav>
         <ul className={styles.tocList}>
-          {sections.map((section) => (
+          {processedSections.map((section) => (
             <li
               key={section.id}
               style={{
-                paddingLeft: `${Math.max(0, section.level - 1) * 0.75}rem`,
+                paddingLeft: `${section.indentLevel * 0.75}rem`,
               }}
             >
               <a
