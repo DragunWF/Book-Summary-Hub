@@ -1,45 +1,25 @@
-import { MOCK_SUMMARIES } from "@/app/constants/mockData";
 import BookForm from "@/app/_components/Admin/BookForm/BookForm";
-import Book from "@/app/_interfaces/book";
-import { notFound, redirect } from "next/navigation";
+import { getBookSummaryById } from "@/app/_lib/data-service"; // Import real data service
+import { notFound } from "next/navigation"; // Keep notFound
+import Book from "@/app/_interfaces/book"; // Keep Book interface import
 
 interface PageProps {
-  params: Promise<{ bookId: string }>;
+  params: { bookId: string }; // params are not a Promise in Next.js 14/15
 }
 
 export default async function Page({ params }: PageProps) {
   const { bookId } = await params;
-  let bookData: Book | undefined;
+  let bookData: Book | null = null; // Initialize to null
 
   if (bookId !== "new") {
-    const foundBook = MOCK_SUMMARIES.find((b) => b.id === bookId);
-    if (!foundBook) {
-      // In a real app, this might be a 404, but for prototype we can just let it be undefined (new) or show error
-      // notFound();
-      // For now, let's just log it and treat as new or error.
-      // Actually, standard behavior is 404.
-      // But maybe the user wants to test "editing" with a fake ID?
-      // Let's stick to safe: if not found, it's a 404.
-      // However, since we only have 6 mock items, accessing /7 will 404.
-      // Let's just try to find it.
+    bookData = await getBookSummaryById(bookId); // Fetch real data
+    if (!bookData) {
+      notFound(); // If book not found, render 404
     }
-    bookData = foundBook;
   }
 
-  // Server Action or Handler (Mock for now)
-  async function handleSave(book: Book) {
-    "use server";
-    console.log("Saving book:", book);
-    // In a real app: await db.book.upsert(book)
-    // redirect("/admin/dashboard");
-  }
-
-  async function handleDelete(id: string) {
-    "use server";
-    console.log("Deleting book:", id);
-    // In a real app: await db.book.delete({ where: { id } })
-    // redirect("/admin/dashboard");
-  }
+  // HandleSave and handleDelete are removed as per instruction: "Do not implement the editing of a book summary yet."
+  // BookForm props will be adjusted to reflect this.
 
   return (
     <div
@@ -51,8 +31,7 @@ export default async function Page({ params }: PageProps) {
     >
       <BookForm
         initialData={bookData}
-        onSave={handleSave}
-        onDelete={bookId !== "new" ? handleDelete : undefined}
+        // onSave and onDelete props are removed
       />
     </div>
   );

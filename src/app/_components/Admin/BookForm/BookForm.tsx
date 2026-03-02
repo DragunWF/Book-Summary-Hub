@@ -22,9 +22,9 @@ import Book from "@/app/_interfaces/book";
 import styles from "./BookForm.module.css";
 
 interface BookFormProps {
-  initialData?: Book;
-  onSave: (book: Book) => Promise<void> | void;
-  onDelete?: (id: string) => Promise<void> | void;
+  initialData?: Book | null; // Changed to allow null
+  // onSave: (book: Book) => Promise<void> | void; // Removed
+  // onDelete?: (id: string) => Promise<void> | void; // Removed
 }
 
 const DEFAULT_BOOK: Book = {
@@ -66,9 +66,20 @@ const CATEGORIES = [
 
 export default function BookForm({
   initialData,
-  onSave,
-  onDelete,
+  // onSave, // Removed
+  // onDelete, // Removed
 }: BookFormProps) {
+  // Use useEffect to update formData when initialData changes, for "new" to "edit" transition if it happens.
+  useEffect(() => {
+    if (initialData) {
+      setFormData({ ...DEFAULT_BOOK, ...initialData });
+    } else {
+      setFormData(DEFAULT_BOOK);
+    }
+    setIsDirty(false); // Reset dirty state on initial load/data change
+  }, [initialData]);
+
+
   const [formData, setFormData] = useState<Book>(initialData ? { ...DEFAULT_BOOK, ...initialData } : DEFAULT_BOOK);
   const [isDirty, setIsDirty] = useState(false);
 
@@ -77,14 +88,14 @@ export default function BookForm({
     setIsDirty(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave(formData);
-    setIsDirty(false);
-  };
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   onSave(formData);
+  //   setIsDirty(false);
+  // };
 
   return (
-    <form className={styles.container} onSubmit={handleSubmit}>
+    <form className={styles.container} /* onSubmit={handleSubmit} */> {/* onSubmit removed */}
       {/* Sidebar: Metadata */}
       <aside className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
@@ -123,6 +134,7 @@ export default function BookForm({
               onChange={(e) => handleChange("title", e.target.value)}
               placeholder="Book Title"
               required
+              readOnly // Make fields read-only
             />
           </div>
         </div>
@@ -147,6 +159,7 @@ export default function BookForm({
               onChange={(e) => handleChange("author", e.target.value)}
               placeholder="Author Name"
               required
+              readOnly // Make fields read-only
             />
           </div>
         </div>
@@ -157,6 +170,7 @@ export default function BookForm({
             className={styles.select}
             value={formData.category}
             onChange={(e) => handleChange("category", e.target.value)}
+            disabled // Make fields read-only
           >
             {CATEGORIES.map((cat) => (
               <option key={cat} value={cat}>
@@ -185,7 +199,7 @@ export default function BookForm({
                 key={color}
                 className={`${styles.colorSwatch} ${formData.coverColor === color ? styles.selected : ""}`}
                 style={{ backgroundColor: color }}
-                onClick={() => handleChange("coverColor", color)}
+                // onClick={() => handleChange("coverColor", color)} // Disable click
                 title={color}
               />
             ))}
@@ -200,6 +214,7 @@ export default function BookForm({
             value={formData.coverIcon || ""}
             onChange={(e) => handleChange("coverIcon", e.target.value)}
             placeholder="e.g. book-open, code, cpu"
+            readOnly // Make fields read-only
           />
         </div>
 
@@ -227,6 +242,7 @@ export default function BookForm({
             className={styles.rangeInput}
             value={formData.rating}
             onChange={(e) => handleChange("rating", parseInt(e.target.value))}
+            disabled // Make fields read-only
           />
         </div>
 
@@ -243,12 +259,12 @@ export default function BookForm({
           </div>
           <div
             style={{
-              cursor: "pointer",
+              cursor: "default", // Changed cursor
               color: formData.isPublished
                 ? "var(--accent-primary)"
                 : "var(--text-muted)",
             }}
-            onClick={() => handleChange("isPublished", !formData.isPublished)}
+            // onClick={() => handleChange("isPublished", !formData.isPublished)} // Disable click
           >
             {formData.isPublished ? (
               <ToggleRight size={32} />
@@ -277,6 +293,7 @@ export default function BookForm({
               value={formData.readTime || ""}
               onChange={(e) => handleChange("readTime", e.target.value)}
               placeholder="e.g. 15 min read"
+              readOnly // Make fields read-only
             />
           </div>
         </div>
@@ -302,7 +319,8 @@ export default function BookForm({
             </div>
 
             <div className={styles.actions}>
-              {onDelete && (
+              {/* onSave and onDelete buttons removed */}
+              {/* {onDelete && (
                 <button
                   type="button"
                   className={`${styles.btn} ${styles.btnDelete}`}
@@ -318,7 +336,7 @@ export default function BookForm({
               >
                 <Save size={16} />
                 {isDirty ? "Save Changes*" : "Save"}
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -331,6 +349,7 @@ export default function BookForm({
             onChange={(e) => handleChange("summary", e.target.value)}
             placeholder="A brief overview of the book..."
             maxLength={300}
+            readOnly // Make fields read-only
           />
           <div
             style={{
@@ -353,6 +372,7 @@ export default function BookForm({
             value={formData.fullContent || ""}
             onChange={(e) => handleChange("fullContent", e.target.value)}
             placeholder="# Chapter 1..."
+            readOnly // Make fields read-only
           />
         </div>
       </main>
