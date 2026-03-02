@@ -37,22 +37,27 @@
 - [x] Featured book summary features
   - [x] Set featured book summary
   - [x] Clear featured book summary
-- [ ] Book summaries CRUD operations
-  - [ ] Create book summary feature
-  - [ ] Update book summary feature
-  - [ ] Delete book summary feature
-    - [ ] Confirmation dialog before deleting
+- [x] Book summaries CRUD operations
+  - [x] Create book summary feature
+  - [x] Update book summary feature
+  - [x] Delete book summary feature
+    - [x] Confirmation dialog before deleting
 - [x] Admin signout feature
 
 ### Admin Book Summary Management Page
 
 - [x] UI Layout
-- [ ] Book summary creation feature
-- [ ] Book summary update feature
-- [ ] Book summary delete feature
+- [x] Book summary creation feature
+- [x] Book summary update feature
+- [x] Book summary delete feature
 
 ## Miscelleneous
 
 ### Security
 
 - [ ] Implement authentication rules on executing update, create, and delete operations on book summaries in Supabase.
+
+### Aesthetics
+
+- [ ] Implement error page
+- [ ] Implement loading spinners
