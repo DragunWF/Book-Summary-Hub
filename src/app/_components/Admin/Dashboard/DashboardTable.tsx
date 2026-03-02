@@ -83,12 +83,12 @@ export default function DashboardTable({
                             backgroundColor: "currentColor",
                           }}
                         />
-                        LIVE
+                        PUBLISHED
                       </>
                     ) : (
                       <>
                         <FileText size={10} />
-                        DRAFT
+                        UNPUBLISHED
                       </>
                     )}
                   </span>
