@@ -7,15 +7,17 @@
   "id": "string",
   "title": "string",
   "author": "string",
-  "coverColor": "string",
   "category": "string",
   "rating": "number",
   "summary": "string",
   "fullContent": "string",
+  "coverColor": "string",
   "coverIcon": "string",
   "isPublished": "boolean"
 }
 ```
+
+_Note: `isPublished` indicates that the post is not visible on the home page._
 
 ## Comment
 
