@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import styles from "./dashboard.module.css";
+import { signOut } from "@/app/_lib/actions";
 
 // --- Mock Data ---
 interface BookEntry {
@@ -89,10 +90,12 @@ export default function AdminDashboard() {
               <Globe size={14} />
               <span>Return to Library</span>
             </Link>
-            <Link href="/api/auth/signout" className={styles.navLink}>
-              <LogOut size={14} />
-              <span>Sever Connection</span>
-            </Link>
+            <form action={signOut} className={styles.navLink}>
+              <button type="submit" className={styles.navLinkButton}>
+                <LogOut size={14} />
+                <span>Sever Connection</span>
+              </button>
+            </form>
           </nav>
         </header>
 

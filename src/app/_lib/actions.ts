@@ -68,3 +68,9 @@ export async function adminSignIn(formData: FormData) {
   // Redirect to admin dashboard on successful login
   redirect("/admin/dashboard");
 }
+
+export async function signOut() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  return redirect("/");
+}
