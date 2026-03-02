@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import styles from "@/app/admin/dashboard/dashboard.module.css";
 import Book from "@/app/_interfaces/book";
+import { deleteBookSummaryAction } from "@/app/_lib/actions";
 
 interface DashboardTableProps {
   books: Book[];
@@ -39,6 +40,12 @@ export default function DashboardTable({
       </div>
     );
   }
+
+  const handleBookDeletion = async (bookId: string) => {
+    if (window.confirm("Are you sure you want to delete this book summary?")) {
+      await deleteBookSummaryAction(bookId);
+    }
+  };
 
   return (
     <div className={styles.tableContainer}>
@@ -128,6 +135,7 @@ export default function DashboardTable({
 
                     <button
                       className={`${styles.actionBtn} ${styles.delete}`}
+                      onClick={() => handleBookDeletion(book.id)}
                       title="Delete Entry"
                     >
                       <Trash2 size={16} />
