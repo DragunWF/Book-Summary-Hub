@@ -5,6 +5,7 @@ import {
   Zap,
   ChevronLeft,
   ChevronRight,
+  FolderX, // Added FolderX import
 } from "lucide-react";
 import Link from "next/link";
 import styles from "@/app/admin/dashboard/dashboard.module.css";
@@ -25,6 +26,20 @@ export default function DashboardTable({
   currentPage,
   totalPages,
 }: DashboardTableProps) {
+  if (!books.length) {
+    return (
+      <div className={styles.tableContainer}>
+        <div className={styles.emptyTableMessage}>
+          {" "}
+          {/* New class for styling */}
+          <FolderX size={24} style={{ opacity: 0.3 }} />
+          <span>[ SYSTEM_MESSAGE // NO_MATCHING_ARCHIVES_FOUND ]</span>
+          <p>Adjust your search query or pagination settings.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.tableContainer}>
       <table className={styles.table}>
