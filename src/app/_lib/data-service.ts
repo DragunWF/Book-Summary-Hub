@@ -8,6 +8,22 @@ const settingsTable = "settings";
 // const commentsTable = "comments";
 
 export async function getBookSummaries(): Promise<Book[]> {
+  // Fetches only published books (For public view)
+  const { data, error } = await supabase
+    .from(bookSummaryTable)
+    .select("*")
+    .eq("isPublished", true);
+
+  if (error) {
+    console.error("Error fetching book summaries:", error);
+    return [];
+  }
+
+  return (data as Book[]) || [];
+}
+
+export async function getBookSummariesForAdmin(): Promise<Book[]> {
+  // Fetches include unpublished books (For admin view only)
   const { data, error } = await supabase.from(bookSummaryTable).select("*");
 
   if (error) {
