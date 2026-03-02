@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📖 The Grimoire // Book Summary Hub
 
-## Getting Started
+> *"Where the precision of code meets the wisdom of pages."*
 
-First, run the development server:
+Welcome to **The Grimoire** (aka Book Summary Hub)—a personal digital library and knowledge-sharing platform crafted by DragunWF. This project serves as a public archive for book summaries originally scribed in Obsidian, translated into a developer-centric, hacker-terminal aesthetic. 
 
+It is designed for those who appreciate the quiet hum of a server and the rustle of turning pages.
+
+---
+
+## ✨ System Features
+
+*   **📚 The Public Archives:** Browse a curated collection of book summaries, categorized and easily accessible.
+*   **🖋️ Markdown Native:** Summaries are rendered beautifully from Markdown, supporting rich text, code blocks, quotes, and structured formatting.
+*   **🧙‍♂️ Hacker-Library Aesthetic:** Deep dark mode (`Slate 950`) with "Mage Green" (`#00FF41`) accents, blending the vibe of a minimalist academic library with a cyberpunk terminal.
+*   **🔒 Admin Console (Dashboard):** A secured terminal for managing the database. Features include:
+    *   **Data Table:** Manage entries with server-side pagination and case-insensitive querying.
+    *   **Primary Archive Slot:** Interactively set a "Featured Book" to highlight on the main library interface.
+    *   **State Management:** Control visibility of archives (Live vs. Draft status).
+    *   **Supabase Integration:** Secure session management and data fetching using Server Actions.
+
+---
+
+## 🛠️ Tech Stack
+
+This project is built with modern, performant web technologies:
+
+*   **Core Framework:** [Next.js (App Router)](https://nextjs.org/)
+*   **Language:** [TypeScript](https://www.typescriptlang.org/)
+*   **Styling:** CSS Modules (`.module.css`) - semantic, scoped, and strictly CSS.
+*   **Icons:** [Lucide React](https://lucide.dev/)
+*   **Database & Auth:** [Supabase](https://supabase.com/) (PostgreSQL)
+*   **Deployment:** [Vercel](https://vercel.com/)
+
+---
+
+## 🚀 Boot Sequence (Setup)
+
+Want to initialize your own instance of The Grimoire? Follow these steps:
+
+### 1. Prerequisites
+*   Node.js (v18+)
+*   npm, yarn, or pnpm
+*   A [Supabase](https://supabase.com/) project
+
+### 2. Clone the Repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd book-summary-hub
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Install Dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Environment Variables
+Create a `.env.local` file in the root directory and inject your Supabase credentials:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# For Server Actions / Admin usage
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_KEY=your_supabase_service_role_key
+```
 
-## Learn More
+### 5. Initialize the Server
+```bash
+npm run dev
+```
+The console will boot up. Navigate your browser to `http://localhost:3000` to establish a connection to the library.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📜 Database Architecture (Brief)
+The application relies on a Supabase PostgreSQL database with the following core entities:
+*   `bookSummaries`: The primary archive storing `id`, `title`, `author`, `category`, `summary`, `fullContent` (Markdown), `isPublished`, and timestamps.
+*   `settings`: Stores global configuration states, such as the active `featuredBookId`.
