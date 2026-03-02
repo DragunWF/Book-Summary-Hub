@@ -37,6 +37,7 @@
   - [ ] Update book summary feature
   - [ ] Delete book summary feature
     - [ ] Confirmation dialog before deleting
+- [x] Admin signout feature
 
 ## Admin Book Summary Management Page
 
