@@ -1,8 +1,14 @@
 import { supabase } from "./supabase";
 import Book from "../_interfaces/book";
 
+const bookSummaryTable = "bookSummaries";
+const settingsTable = "settings";
+
+// Note for self: For future usage
+const commentsTable = "comments";
+
 export async function getBookSummaries(): Promise<Book[]> {
-  const { data, error } = await supabase.from("bookSummaries").select("*");
+  const { data, error } = await supabase.from(bookSummaryTable).select("*");
 
   if (error) {
     console.error("Error fetching book summaries:", error);
@@ -14,7 +20,7 @@ export async function getBookSummaries(): Promise<Book[]> {
 
 export async function getFeaturedBookSummary(): Promise<Book | null> {
   const { data: settingsData, error: settingsError } = await supabase
-    .from("settings")
+    .from(settingsTable)
     .select("featuredBookId")
     .maybeSingle();
 
@@ -31,7 +37,7 @@ export async function getFeaturedBookSummary(): Promise<Book | null> {
   if (!featuredBookId) return null;
 
   const { data: bookData, error: bookError } = await supabase
-    .from("bookSummaries")
+    .from(bookSummaryTable)
     .select("*")
     .eq("id", featuredBookId)
     .maybeSingle();
@@ -46,7 +52,7 @@ export async function getFeaturedBookSummary(): Promise<Book | null> {
 
 export async function getBookSummaryById(id: string): Promise<Book | null> {
   const { data, error } = await supabase
-    .from("bookSummaries")
+    .from(bookSummaryTable)
     .select("*")
     .eq("id", id)
     .maybeSingle();
