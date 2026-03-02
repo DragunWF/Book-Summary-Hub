@@ -22,7 +22,7 @@ export default function DashboardHero({
             </div>
             <h2 className={styles.heroTitle}>{featuredBook.title}</h2>
             <div className={styles.heroMeta}>
-              <span>ID: #{featuredBook.id.split("-")[0]}</span>
+              <span>ID: #{featuredBook.id}</span>
               <span>{"//"}</span>
               <span>CAT: {featuredBook.category.toUpperCase()}</span>
             </div>

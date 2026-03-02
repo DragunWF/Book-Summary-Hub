@@ -2,7 +2,10 @@ import Link from "next/link";
 import { Globe, LogOut } from "lucide-react";
 import styles from "./dashboard.module.css";
 import { signOut } from "@/app/_lib/actions";
-import { getPaginatedBookSummariesForAdmin } from "@/app/_lib/data-service";
+import {
+  getPaginatedBookSummariesForAdmin,
+  getFeaturedBookSummary,
+} from "@/app/_lib/data-service";
 import DashboardClient from "../../_components/Admin/Dashboard/DashboardClient";
 
 interface PageProps {
@@ -27,6 +30,7 @@ export default async function AdminDashboard({ searchParams }: PageProps) {
     query,
   );
   const totalPages = Math.ceil(count / pageSize) || 1;
+  const featuredBook = await getFeaturedBookSummary();
 
   return (
     <div className={styles.dashboardContainer}>
@@ -54,6 +58,7 @@ export default async function AdminDashboard({ searchParams }: PageProps) {
           currentPage={page}
           totalPages={totalPages}
           searchQuery={query}
+          initialFeaturedBook={featuredBook}
         />
       </div>
     </div>

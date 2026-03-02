@@ -2,6 +2,11 @@
 
 import { createClient } from "@/app/_lib/supabase-server";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import {
+  setFeaturedBookSummaryId,
+  clearFeaturedBookSelection,
+} from "@/app/_lib/data-service";
 
 // Book Summaries
 
@@ -31,6 +36,16 @@ export async function getBookSummary(id: number) {
 
 export async function getFeaturedBookSummary(id: number) {
   return;
+}
+
+export async function setFeaturedBookAction(id: string) {
+  await setFeaturedBookSummaryId(id);
+  revalidatePath("/admin/dashboard");
+}
+
+export async function clearFeaturedBookAction() {
+  await clearFeaturedBookSelection();
+  revalidatePath("/admin/dashboard");
 }
 
 // Comments

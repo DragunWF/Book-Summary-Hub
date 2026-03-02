@@ -107,3 +107,33 @@ export async function getBookSummaryById(id: string): Promise<Book | null> {
 
   return data as Book;
 }
+
+export async function setFeaturedBookSummaryId(id: string) {
+  const { error } = await supabase
+    .from(settingsTable)
+    .update({ featuredBookId: id })
+    .eq("id", 1)
+    .maybeSingle();
+
+  if (error) {
+    console.error(
+      "Error updating featured book summary ID from the settings table:",
+      error,
+    );
+  }
+}
+
+export async function clearFeaturedBookSelection() {
+  const { error } = await supabase
+    .from(settingsTable)
+    .update({ featuredBookId: null })
+    .eq("id", 1)
+    .maybeSingle();
+
+  if (error) {
+    console.error(
+      "Error clearing the featured book summary ID from the settings:",
+      error,
+    );
+  }
+}

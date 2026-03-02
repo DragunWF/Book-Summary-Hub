@@ -1,16 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import Book from "@/app/_interfaces/book";
 import DashboardHero from "./DashboardHero";
 import DashboardToolbar from "./DashboardToolbar";
 import DashboardTable from "./DashboardTable";
+import {
+  setFeaturedBookAction,
+  clearFeaturedBookAction,
+} from "@/app/_lib/actions";
 
 interface DashboardClientProps {
   books: Book[];
   currentPage: number;
   totalPages: number;
   searchQuery: string;
+  initialFeaturedBook: Book | null;
 }
 
 export default function DashboardClient({
@@ -18,27 +22,30 @@ export default function DashboardClient({
   currentPage,
   totalPages,
   searchQuery,
+  initialFeaturedBook,
 }: DashboardClientProps) {
-  const [featuredBookId, setFeaturedBookId] = useState<string | null>(null);
+  const toggleFeatured = async (id: string) => {
+    if (initialFeaturedBook?.id === id) {
+      await clearFeaturedBookAction();
+    } else {
+      await setFeaturedBookAction(id);
+    }
+  };
 
-  const featuredBook = featuredBookId
-    ? books.find((b) => b.id === featuredBookId)
-    : null;
-
-  const toggleFeatured = (id: string) => {
-    setFeaturedBookId((prev) => (prev === id ? null : id));
+  const clearFeatured = async () => {
+    await clearFeaturedBookAction();
   };
 
   return (
     <>
       <DashboardHero
-        featuredBook={featuredBook}
-        onClear={() => setFeaturedBookId(null)}
+        featuredBook={initialFeaturedBook}
+        onClear={clearFeatured}
       />
       <DashboardToolbar initialSearchQuery={searchQuery} />
       <DashboardTable
         books={books}
-        featuredBookId={featuredBookId}
+        featuredBookId={initialFeaturedBook?.id || null}
         onToggleFeatured={toggleFeatured}
         currentPage={currentPage}
         totalPages={totalPages}
