@@ -16,12 +16,15 @@
 
 - [x] UI Layout
 - [x] Book info display
-- [ ] Markdown rendering
+- [x] Markdown rendering
+- [ ] Reading time calculation
+- [ ] Dynamic table of content headers
 - [ ] Comment on summary feature
 
 ## Admin Login Page
 
 - [x] UI Layout
+- [ ] Admin account feature
 - [ ] User authentication
 
 ## Admin Dashboard Page
