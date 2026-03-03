@@ -2,25 +2,33 @@
 
 import { Search, Plus } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import styles from "@/app/admin/dashboard/dashboard.module.css";
 
 interface DashboardToolbarProps {
   initialSearchQuery: string;
+  onNavigate?: (isPending: boolean) => void;
 }
 
 export default function DashboardToolbar({
   initialSearchQuery,
+  onNavigate,
 }: DashboardToolbarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState(initialSearchQuery);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     setSearchTerm(initialSearchQuery);
   }, [initialSearchQuery]);
+
+  // Notify parent component when navigation starts
+  useEffect(() => {
+    onNavigate?.(isPending);
+  }, [isPending, onNavigate]);
 
   const executeSearch = (term: string) => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
@@ -30,7 +38,9 @@ export default function DashboardToolbar({
     } else {
       current.delete("query");
     }
-    router.push(`${pathname}?${current.toString()}`);
+    startTransition(() => {
+      router.push(`${pathname}?${current.toString()}`);
+    });
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

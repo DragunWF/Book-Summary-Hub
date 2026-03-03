@@ -1,3 +1,6 @@
+"use client";
+
+import { useTransition } from "react";
 import {
   Edit3,
   Trash2,
@@ -9,6 +12,7 @@ import {
   Loader2,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "@/app/admin/dashboard/dashboard.module.css";
 import Book from "@/app/_interfaces/book";
 import { deleteBookSummaryAction } from "@/app/_lib/actions";
@@ -34,7 +38,18 @@ export default function DashboardTable({
   isLoading = false,
   loadingActionId = null,
 }: DashboardTableProps) {
-  if (!books.length && !isLoading) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+
+  const handlePageChange = (newPage: number) => {
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    current.set("page", newPage.toString());
+    startTransition(() => {
+      router.push(`?${current.toString()}`);
+    });
+  };
+  if (!books.length && !isLoading && !isPending) {
     return (
       <div className={styles.tableContainer}>
         <div className={styles.emptyTableMessage}>
@@ -52,10 +67,13 @@ export default function DashboardTable({
     }
   };
 
+  // Combine loading states from search and pagination
+  const isTableLoading = isLoading || isPending;
+
   return (
     <div className={styles.tableContainer} style={{ position: "relative" }}>
       {/* Loading Overlay */}
-      {isLoading && (
+      {isTableLoading && (
         <div className={styles.loadingOverlay}>
           <div className={styles.loadingContent}>
             <Loader2 size={32} className={styles.spinnerIcon} />
@@ -191,23 +209,25 @@ export default function DashboardTable({
 
       {/* Pagination Controls */}
       <div className={styles.paginationContainer}>
-        <Link
-          href={currentPage > 1 ? `?page=${currentPage - 1}` : "#"}
+        <button
           className={`${styles.paginationBtn} ${currentPage <= 1 ? styles.paginationDisabled : ""}`}
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage <= 1 || isPending}
         >
           <ChevronLeft size={16} />
           <span>PREV</span>
-        </Link>
+        </button>
         <span className={styles.paginationInfo}>
           PAGE {currentPage} OF {totalPages}
         </span>
-        <Link
-          href={currentPage < totalPages ? `?page=${currentPage + 1}` : "#"}
+        <button
           className={`${styles.paginationBtn} ${currentPage >= totalPages ? styles.paginationDisabled : ""}`}
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage >= totalPages || isPending}
         >
           <span>NEXT</span>
           <ChevronRight size={16} />
-        </Link>
+        </button>
       </div>
     </div>
   );

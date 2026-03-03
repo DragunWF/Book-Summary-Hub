@@ -213,6 +213,41 @@
   background: rgba(239, 68, 68, 0.1);
 }
 
+/* Hero Actions */
+.heroActions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.heroActionBtn {
+  background: transparent;
+  border: 1px solid #334155;
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.heroActionBtn:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.heroActionBtn:last-child:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
 /* Toolbar (Search + Add) */
 .toolbar {
   display: flex;
@@ -491,10 +526,16 @@
   text-decoration: none;
 }
 
-.paginationBtn:not(.paginationDisabled):hover {
+.paginationBtn:not(:disabled):hover {
   border-color: var(--accent-primary);
   color: var(--accent-primary);
   background: rgba(16, 185, 129, 0.05);
+}
+
+.paginationBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .paginationDisabled {

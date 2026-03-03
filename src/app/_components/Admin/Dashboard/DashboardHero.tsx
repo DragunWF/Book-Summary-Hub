@@ -1,6 +1,7 @@
-import { Zap, X } from "lucide-react";
+import { Zap, X, Edit3 } from "lucide-react";
 import styles from "@/app/admin/dashboard/dashboard.module.css";
 import Book from "@/app/_interfaces/book";
+import Link from "next/link";
 
 interface DashboardHeroProps {
   featuredBook: Book | null | undefined;
@@ -27,13 +28,23 @@ export default function DashboardHero({
               <span>CAT: {featuredBook.category.toUpperCase()}</span>
             </div>
           </div>
-          <button
-            className={styles.severHeroBtn}
-            onClick={onClear}
-            title="Deactivate Hero Slot"
-          >
-            <X size={16} />
-          </button>
+          <div className={styles.heroActions}>
+            <Link href={`/admin/dashboard/book-summary/${featuredBook.id}`}>
+              <button
+                className={styles.heroActionBtn}
+                title="Edit Featured Book"
+              >
+                <Edit3 size={16} />
+              </button>
+            </Link>
+            <button
+              className={styles.heroActionBtn}
+              onClick={onClear}
+              title="Deactivate Hero Slot"
+            >
+              <X size={16} />
+            </button>
+          </div>
         </div>
       ) : (
         <div className={styles.emptyHeroSlot}>

@@ -28,6 +28,7 @@ export default function DashboardClient({
 }: DashboardClientProps) {
   const [isPending, startTransition] = useTransition();
   const [loadingActionId, setLoadingActionId] = useState<string | null>(null);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const toggleFeatured = async (id: string) => {
     setLoadingActionId(id);
@@ -55,13 +56,20 @@ export default function DashboardClient({
     }
   };
 
+  const handleNavigate = (isNavigating: boolean) => {
+    setIsNavigating(isNavigating);
+  };
+
   return (
     <>
       <DashboardHero
         featuredBook={initialFeaturedBook}
         onClear={clearFeatured}
       />
-      <DashboardToolbar initialSearchQuery={searchQuery} />
+      <DashboardToolbar
+        initialSearchQuery={searchQuery}
+        onNavigate={handleNavigate}
+      />
       <DashboardTable
         books={books}
         featuredBookId={initialFeaturedBook?.id || null}
@@ -69,7 +77,7 @@ export default function DashboardClient({
         onDelete={handleDelete}
         currentPage={currentPage}
         totalPages={totalPages}
-        isLoading={isPending}
+        isLoading={isNavigating}
         loadingActionId={loadingActionId}
       />
     </>
