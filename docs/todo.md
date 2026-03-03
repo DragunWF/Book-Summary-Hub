@@ -55,7 +55,7 @@
 
 ### Security
 
-- [ ] Implement authentication rules on executing update, create, and delete operations on book summaries in Supabase.
+- [x] Implement authentication rules on executing update, create, and delete operations on book summaries in Supabase.
 
 ### Aesthetics
 
