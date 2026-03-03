@@ -62,7 +62,9 @@
 - [x] Implement error page
 - [x] Implement loading spinners
 - [x] Implement "Not Found" page
-- [ ] Implement confirmation toasts
+- [x] Implement confirmation toasts
+  - [x] Implement success toasts
+  - [x] Implement error toasts
 - [x] Implement loader actions on forms
   - [x] Spinners on dashboard table actions
   - [x] Spinners on searching for book summary on dashboard table
