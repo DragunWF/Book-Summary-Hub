@@ -239,8 +239,34 @@ export async function postComment(bookId: number, comment: string) {
   return;
 }
 
-export async function deleteComment() {
-  return;
+export async function deleteCommentAction(commentId: string, bookId: string) {
+  const supabase = await createClient();
+
+  // Check if user is authenticated
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    throw new Error("You must be logged in to delete comments");
+  }
+
+  // Delete the comment
+  const { error } = await supabase
+    .from("comments")
+    .delete()
+    .eq("id", commentId);
+
+  if (error) {
+    console.error("Error deleting comment:", error);
+    throw new Error("Failed to banish the comment from the archives.");
+  }
+
+  // Revalidate the comments page
+  revalidatePath(`/admin/dashboard/book-summary/${bookId}/comments`);
+  revalidatePath(`/book-summary/${bookId}`);
+
+  return { success: true };
 }
 
 // Admin Authentication

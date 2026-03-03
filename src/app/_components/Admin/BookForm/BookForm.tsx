@@ -16,7 +16,8 @@ import {
   Palette,
   Clock,
   FileText,
-  ChevronLeft, // Import ChevronLeft icon
+  ChevronLeft,
+  MessageSquare,
   Loader2,
 } from "lucide-react";
 import Book from "@/app/_interfaces/book";
@@ -388,6 +389,26 @@ export default function BookForm({
             </div>
 
             <div className={styles.actions}>
+              {formData.id && (
+                <Link
+                  href={`/admin/dashboard/book-summary/${formData.id}/comments`}
+                >
+                  <button
+                    type="button"
+                    className={`${styles.btn} ${styles.btnGhost}`}
+                    disabled={isSaving || isDeleting}
+                    style={{
+                      opacity: isSaving || isDeleting ? 0.5 : 1,
+                      cursor:
+                        isSaving || isDeleting ? "not-allowed" : "pointer",
+                      pointerEvents: isSaving || isDeleting ? "none" : "auto",
+                    }}
+                  >
+                    <MessageSquare size={16} />
+                    Comments
+                  </button>
+                </Link>
+              )}
               {onDelete && (
                 <button
                   type="button"
