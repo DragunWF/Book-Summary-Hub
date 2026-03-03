@@ -112,7 +112,11 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem 2rem;
-  background: linear-gradient(90deg, rgba(16, 185, 129, 0.1) 0%, rgba(2, 6, 23, 0) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(16, 185, 129, 0.1) 0%,
+    rgba(2, 6, 23, 0) 100%
+  );
   border: 1px solid var(--accent-primary);
   border-left-width: 4px;
   border-radius: 4px;
@@ -123,9 +127,15 @@
 }
 
 @keyframes pulseSlot {
-  0% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.1); }
-  50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.25); }
-  100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.1); }
+  0% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.25);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+  }
 }
 
 .heroContent {
@@ -156,8 +166,13 @@
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .heroTitle {
@@ -215,7 +230,7 @@
   max-width: 400px;
   padding-bottom: 0.5rem;
   /* Slate 700 for input underline */
-  border-bottom: 1px solid #334155; 
+  border-bottom: 1px solid #334155;
   transition: border-color 0.2s ease;
 }
 
@@ -326,7 +341,7 @@
 
 /* The left glow bar effect on hover */
 .tr::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0;
@@ -421,7 +436,9 @@
   border: none;
   cursor: pointer;
   color: var(--text-muted);
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
   padding: 0.25rem;
 }
 
@@ -509,4 +526,48 @@
   text-transform: uppercase;
   background: rgba(255, 255, 255, 0.01);
   margin: 1.5rem;
+}
+
+/* Loading Overlay */
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(9, 9, 11, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(2px);
+}
+
+.loadingContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--accent-primary);
+}
+
+.spinnerIcon {
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  font-family: var(--font-geist-mono);
+}
+
+/* Spinner Animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

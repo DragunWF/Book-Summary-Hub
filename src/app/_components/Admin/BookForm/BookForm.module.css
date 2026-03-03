@@ -11,8 +11,14 @@
 }
 
 /* Sidebar & Main Stage Containers - matching .consoleFrame */
-.sidebar, .mainStage {
-  background-color: rgba(2, 6, 23, 0.95); /* Slate 950 base with slight transparency */
+.sidebar,
+.mainStage {
+  background-color: rgba(
+    2,
+    6,
+    23,
+    0.95
+  ); /* Slate 950 base with slight transparency */
   border: 1px solid #1e293b; /* Slate 800 border */
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
   border-radius: 4px; /* Slight rounding for the frame */
@@ -38,7 +44,8 @@
   gap: 8px;
 }
 
-.inputGroup .sectionTitle { /* Specific style for section titles within input groups */
+.inputGroup .sectionTitle {
+  /* Specific style for section titles within input groups */
   padding-bottom: 8px;
   border-bottom: 1px solid #1e293b;
   margin-bottom: 12px;
@@ -61,7 +68,9 @@
 }
 
 /* Matching .searchInput style but adapted for form fields */
-.input, .textarea, .select {
+.input,
+.textarea,
+.select {
   background: transparent;
   border: none;
   border-bottom: 1px solid #334155; /* Slate 700 */
@@ -74,13 +83,16 @@
   width: 100%;
 }
 
-.input:focus, .textarea:focus, .select:focus {
+.input:focus,
+.textarea:focus,
+.select:focus {
   outline: none;
   border-bottom-color: var(--accent-primary);
   box-shadow: none; /* Removed the glow box shadow, keeping it clean */
 }
 
-.input::placeholder, .textarea::placeholder {
+.input::placeholder,
+.textarea::placeholder {
   color: var(--text-muted);
   opacity: 0.5;
 }
@@ -126,7 +138,9 @@
   border-radius: 2px; /* Square/Sharp corners like pixel art/terminal */
   border: 1px solid #334155;
   cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .colorSwatch:hover {
@@ -136,7 +150,9 @@
 
 .colorSwatch.selected {
   border-color: var(--text-primary);
-  box-shadow: 0 0 0 2px var(--bg-deep), 0 0 0 3px var(--accent-primary);
+  box-shadow:
+    0 0 0 2px var(--bg-deep),
+    0 0 0 3px var(--accent-primary);
 }
 
 /* Rating Slider */
@@ -243,7 +259,8 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
-.btnDelete { /* Specific style for delete button */
+.btnDelete {
+  /* Specific style for delete button */
   background: transparent;
   border-color: #ef4444; /* Red for delete */
   color: #ef4444;
@@ -254,7 +271,6 @@
   color: #020617;
   box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
 }
-
 
 /* Published Toggle - simplified to match badge style */
 .toggleWrapper {
@@ -280,8 +296,12 @@
   margin-top: 4px;
 }
 
-.statusPublished { color: var(--accent-primary); }
-.statusDraft { color: #fbbf24; } /* Amber 400 */
+.statusPublished {
+  color: var(--accent-primary);
+}
+.statusDraft {
+  color: #fbbf24;
+} /* Amber 400 */
 
 /* Responsive */
 @media (max-width: 1024px) {
@@ -290,8 +310,9 @@
     height: auto;
     overflow-y: auto;
   }
-  
-  .sidebar, .mainStage {
+
+  .sidebar,
+  .mainStage {
     height: auto;
     overflow: visible;
   }
@@ -307,5 +328,19 @@
   .mainHeader .actions {
     width: 100%;
     justify-content: flex-end;
+  }
+}
+
+/* Spinner Animation */
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
