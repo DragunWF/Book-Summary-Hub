@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 import { getBookSummaries, getFeaturedBookSummary } from "./_lib/data-service";
 
 export const metadata = {
-  title: "DragunWF Book Summaries",
+  title: "DragunWF Library",
 };
 
 export default async function Home() {
