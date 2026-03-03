@@ -43,7 +43,7 @@ export default function AdminLoginForm() {
         setSuccess(true);
         return; // Don't set error, the redirect will handle navigation
       }
-      
+
       console.error("Login failed:", err);
       setError(true);
       // Remove error class after animation plays to allow re-trigger

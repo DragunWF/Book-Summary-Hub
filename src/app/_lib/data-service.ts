@@ -155,6 +155,13 @@ export async function getBookSummaryById(id: string): Promise<Book | null> {
 }
 
 export async function setFeaturedBookSummaryId(id: string) {
+  const book = await getBookSummaryById(id);
+
+  if (!book?.isPublished) {
+    console.error("Book is not published");
+    return;
+  }
+
   const { error } = await supabase
     .from(settingsTable)
     .update({ featuredBookId: id })

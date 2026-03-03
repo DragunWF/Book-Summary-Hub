@@ -4,6 +4,7 @@ import { createClient } from "@/app/_lib/supabase-server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import Book from "@/app/_interfaces/book";
+import { getBookSummaryById } from "./data-service";
 
 const bookSummaryTable = "bookSummaries";
 
@@ -118,6 +119,11 @@ export async function setFeaturedBookAction(id: string) {
   } = await supabase.auth.getUser();
   if (userError || !user) {
     throw new Error("You must be logged in");
+  }
+
+  const book = await getBookSummaryById(id);
+  if (!book?.isPublished) {
+    throw new Error("Book is not published");
   }
 
   const { error } = await supabase
