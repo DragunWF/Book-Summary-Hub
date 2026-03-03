@@ -89,7 +89,7 @@ export default function BookSummaryView({ book }: { book: Book }) {
         <main className={styles.mainColumn}>
           <BookHero book={book} />
           <BookMarkdownContent book={book} />
-          <CommentsSection />
+          <CommentsSection bookId={book.id} />
         </main>
 
         {/* --- RIGHT SIDEBAR: META/ACTIONS --- */}

@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import Book from "@/app/_interfaces/book";
 import { getBookSummaryById } from "./data-service";
+import { cookies } from "next/headers";
 
 const bookSummaryTable = "bookSummaries";
 
@@ -165,9 +166,77 @@ export async function clearFeaturedBookAction() {
 }
 
 // Comments
+export async function getComments(bookId: string) {
+  const supabase = await createClient();
 
-export async function getComments(bookId: number) {
-  return;
+  const { data, error } = await supabase
+    .from("comments")
+    .select("id, username, content, createdAt")
+    .eq("bookId", bookId)
+    .order("createdAt", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching comments:", error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function addComment(formData: FormData) {
+  const content = formData.get("content") as string;
+  const bookId = formData.get("bookId") as string;
+
+  if (!content || !bookId) {
+    throw new Error("Content and bookId are required");
+  }
+
+  const cookieStore = await cookies();
+  let guestToken = cookieStore.get("guest_token")?.value;
+  let username: string;
+
+  // If no guest token exists, create one
+  if (!guestToken) {
+    guestToken = crypto.randomUUID();
+    const prefix = "Wandering Scholar ";
+    username = prefix + guestToken.substring(0, 4).toUpperCase();
+
+    // Set the cookie (expires in 1 year)
+    cookieStore.set("guest_token", guestToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 365 * 24 * 60 * 60, // 1 year in seconds
+    });
+  } else {
+    // Token exists, reconstruct username from token
+    const prefix = "Wandering Scholar ";
+    username = prefix + guestToken.substring(0, 4).toUpperCase();
+  }
+
+  // Insert into Supabase
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("comments")
+    .insert({
+      bookId,
+      guestToken,
+      username,
+      content,
+      createdAt: new Date().toISOString(),
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error adding comment:", error);
+    throw new Error("Failed to add comment: " + error.message);
+  }
+
+  revalidatePath(`/book-summary/${bookId}`);
+
+  return data;
 }
 
 export async function postComment(bookId: number, comment: string) {

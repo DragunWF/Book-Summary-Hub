@@ -1,39 +1,94 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./CommentsSection.module.css";
-import { MessageSquare, Send, User } from "lucide-react";
+import { MessageSquare, Send, User, Loader2 } from "lucide-react";
+import { addComment, getComments } from "@/app/_lib/actions";
+import { useToast } from "@/app/_components/Toast/ToastProvider";
 
-export default function CommentsSection() {
+interface Comment {
+  id: string;
+  username: string;
+  createdAt: string;
+  content: string;
+}
+
+interface CommentsSectionProps {
+  bookId: string;
+}
+
+export default function CommentsSection({ bookId }: CommentsSectionProps) {
   const [commentText, setCommentText] = useState("");
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      user: "Archmage_Dev",
-      time: "2 hours ago",
-      text: "The chapter on Dependency Inversion really clicked for me. The visual aid about the plugin architecture was key.",
-    },
-    {
-      id: 2,
-      user: "Junior_Warlock",
-      time: "5 hours ago",
-      text: "Is this strictly for OOP languages, or can I apply this to functional paradigms like Elixir?",
-    },
-  ]);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { success, error } = useToast();
 
-  const handlePostComment = (e: React.FormEvent) => {
+  // Fetch comments on mount
+  useEffect(() => {
+    const fetchComments = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getComments(bookId);
+        setComments(data);
+      } catch (err) {
+        console.error("Failed to load comments:", err);
+        error("Failed to Load", "Could not load comments for this book.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchComments();
+  }, [bookId, error]);
+
+  const handlePostComment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!commentText.trim()) return;
 
-    const newCommentObj = {
-      id: comments.length + 1,
-      user: "DragunWF", // Current user context
-      time: "Just now",
-      text: commentText,
-    };
+    setIsSubmitting(true);
+    try {
+      const formData = new FormData();
+      formData.append("content", commentText);
+      formData.append("bookId", bookId);
 
-    setComments([newCommentObj, ...comments]);
-    setCommentText("");
+      const newComment = await addComment(formData);
+
+      // Format the comment for display
+      const formattedComment: Comment = {
+        id: newComment.id,
+        username: newComment.username,
+        content: newComment.content,
+        createdAt: "Just now",
+      };
+
+      setComments([formattedComment, ...comments]);
+      setCommentText("");
+      success("Comment Posted", "Your thoughts have been inscribed.");
+    } catch (err) {
+      console.error("Failed to post comment:", err);
+      error("Posting Failed", "Could not post your comment. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const formatTime = (isoString: string) => {
+    if (isoString === "Just now") return isoString;
+
+    const date = new Date(isoString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return "Just now";
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+
+    return date.toLocaleDateString();
   };
 
   return (
@@ -50,6 +105,7 @@ export default function CommentsSection() {
             placeholder="Inscribe your thoughts..."
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
+            disabled={isSubmitting}
           />
           <div
             style={{
@@ -62,66 +118,100 @@ export default function CommentsSection() {
               type="submit"
               className={styles.actionButton + " " + styles.btnPrimary}
               style={{ width: "auto" }}
-              disabled={!commentText.trim()}
+              disabled={!commentText.trim() || isSubmitting}
             >
-              <Send size={14} /> Post
+              {isSubmitting ? (
+                <Loader2
+                  size={14}
+                  style={{ animation: "spin 1s linear infinite" }}
+                />
+              ) : (
+                <Send size={14} />
+              )}
+              {isSubmitting ? "Posting..." : "Post"}
             </button>
           </div>
         </div>
       </form>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-        {comments.map((comment) => (
-          <div key={comment.id} style={{ display: "flex", gap: "1rem" }}>
-            <div
-              style={{
-                width: 40,
-                height: 40,
-                borderRadius: "50%",
-                background: "var(--bg-highlight)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "var(--text-muted)",
-                flexShrink: 0,
-              }}
-            >
-              <User size={20} />
-            </div>
-            <div>
+      {isLoading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "0.5rem",
+            padding: "2rem",
+            color: "var(--text-muted)",
+          }}
+        >
+          <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} />
+          <span>Loading discourse...</span>
+        </div>
+      ) : comments.length === 0 ? (
+        <div
+          style={{
+            textAlign: "center",
+            padding: "2rem",
+            color: "var(--text-muted)",
+          }}
+        >
+          <p>No thoughts inscribed yet. Be the first to share.</p>
+        </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+          {comments.map((comment) => (
+            <div key={comment.id} style={{ display: "flex", gap: "1rem" }}>
               <div
                 style={{
-                  marginBottom: "0.25rem",
-                  fontSize: "0.9rem",
-                  color: "var(--text-primary)",
-                  fontWeight: 600,
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  background: "var(--bg-highlight)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "var(--text-muted)",
+                  flexShrink: 0,
                 }}
               >
-                {comment.user}{" "}
-                <span
+                <User size={20} />
+              </div>
+              <div>
+                <div
                   style={{
-                    fontSize: "0.75rem",
-                    color: "var(--text-muted)",
-                    fontWeight: 400,
-                    marginLeft: "0.5rem",
+                    marginBottom: "0.25rem",
+                    fontSize: "0.9rem",
+                    color: "var(--text-primary)",
+                    fontWeight: 600,
                   }}
                 >
-                  {comment.time}
-                </span>
-              </div>
-              <div
-                style={{
-                  fontSize: "0.95rem",
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.5,
-                }}
-              >
-                {comment.text}
+                  {comment.username}{" "}
+                  <span
+                    style={{
+                      fontSize: "0.75rem",
+                      color: "var(--text-muted)",
+                      fontWeight: 400,
+                      marginLeft: "0.5rem",
+                    }}
+                  >
+                    {formatTime(comment.createdAt)}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    fontSize: "0.95rem",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {comment.content}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
