@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import styles from "./BookSummary.module.css";
 import NavHeader from "../NavHeader/NavHeader";
 import SidebarTOC, { TocSection } from "./SidebarTOC/SidebarTOC";
-import SidebarMeta from "./SidebarMeta/SidebarMeta";
+
 import BookHero from "./BookHero/BookHero";
 import BookMarkdownContent from "./BookMarkdownContent/BookMarkdownContent";
 import CommentsSection from "./CommentsSection/CommentsSection";
@@ -91,9 +91,6 @@ export default function BookSummaryView({ book }: { book: Book }) {
           <BookMarkdownContent book={book} />
           <CommentsSection bookId={book.id} />
         </main>
-
-        {/* --- RIGHT SIDEBAR: META/ACTIONS --- */}
-        <SidebarMeta book={book} />
       </div>
     </div>
   );

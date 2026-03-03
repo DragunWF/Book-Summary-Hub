@@ -18,7 +18,7 @@
 
 @media (min-width: 1024px) {
   .spellbookGrid {
-    grid-template-columns: 280px 1fr 280px; /* Sidebar | Content | Meta/Actions */
+    grid-template-columns: 280px 1fr; /* Sidebar | Content */
     gap: 3rem;
     padding: 0 2rem 4rem;
   }
