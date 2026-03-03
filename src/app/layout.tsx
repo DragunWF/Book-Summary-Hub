@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | DragunWF Book Summaries",
-    default: "DragunWF Book Summaries",
+    template: "%s | DragunWF Library",
+    default: "DragunWF Library",
   },
   description: "DragunWF's Book Summaries",
 };

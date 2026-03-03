@@ -12,12 +12,12 @@ export async function generateMetadata({ params }: PageProps) {
 
   if (!book) {
     return {
-      title: "Book Not Found | Book Summary",
+      title: "Book Not Found",
     };
   }
 
   return {
-    title: `${book.title} | Book Summary`,
+    title: `${book.title}`,
   };
 }
 
