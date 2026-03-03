@@ -3,45 +3,93 @@
 import { createClient } from "@/app/_lib/supabase-server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import {
-  setFeaturedBookSummaryId,
-  clearFeaturedBookSelection,
-  createBookSummary as createBookSummaryService,
-  updateBookSummary as updateBookSummaryService,
-  deleteBookSummary as deleteBookSummaryService,
-} from "@/app/_lib/data-service";
 import Book from "@/app/_interfaces/book";
+
+const bookSummaryTable = "bookSummaries";
 
 // Book Summaries
 
 export async function createBookSummaryAction(book: Book) {
-  const result = await createBookSummaryService(book);
-  if (result) {
-    revalidatePath("/admin/dashboard");
-    redirect("/admin/dashboard");
-  } else {
-    throw new Error("Failed to create book summary");
+  const supabase = await createClient();
+
+  // Check if user is authenticated
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    throw new Error("You must be logged in to create a book summary");
   }
+
+  const { id, createdAt, ...newBook } = book;
+  const payload = { ...newBook };
+
+  const { data, error } = await supabase
+    .from(bookSummaryTable)
+    .insert(payload)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error creating book summary:", error);
+    throw new Error("Failed to create book summary: " + error.message);
+  }
+
+  revalidatePath("/admin/dashboard");
+  redirect("/admin/dashboard");
 }
 
 export async function updateBookSummaryAction(bookId: string, book: Book) {
-  const result = await updateBookSummaryService(bookId, book);
-  if (result) {
-    revalidatePath("/admin/dashboard");
-    redirect("/admin/dashboard");
-  } else {
-    throw new Error("Failed to update book summary");
+  const supabase = await createClient();
+
+  // Check if user is authenticated
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    throw new Error("You must be logged in to update a book summary");
   }
+
+  const { id, createdAt, ...updatedBookData } = book;
+
+  const { data, error } = await supabase
+    .from(bookSummaryTable)
+    .update(updatedBookData)
+    .eq("id", bookId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error updating book summary:", error);
+    throw new Error("Failed to update book summary: " + error.message);
+  }
+
+  revalidatePath("/admin/dashboard");
+  redirect("/admin/dashboard");
 }
 
 export async function deleteBookSummaryAction(id: string) {
-  const success = await deleteBookSummaryService(id);
-  if (success) {
-    revalidatePath("/admin/dashboard");
-    redirect("/admin/dashboard");
-  } else {
-    throw new Error("Failed to delete book summary");
+  const supabase = await createClient();
+
+  // Check if user is authenticated
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    throw new Error("You must be logged in to delete a book summary");
   }
+
+  const { error } = await supabase.from(bookSummaryTable).delete().eq("id", id);
+
+  if (error) {
+    console.error("Error deleting book summary:", error);
+    throw new Error("Failed to delete book summary: " + error.message);
+  }
+
+  revalidatePath("/admin/dashboard");
+  redirect("/admin/dashboard");
 }
 
 export async function archiveBookSummary() {
@@ -61,12 +109,52 @@ export async function getFeaturedBookSummary(id: number) {
 }
 
 export async function setFeaturedBookAction(id: string) {
-  await setFeaturedBookSummaryId(id);
+  const supabase = await createClient();
+
+  // Check if user is authenticated
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    throw new Error("You must be logged in");
+  }
+
+  const { error } = await supabase
+    .from("settings")
+    .update({ featuredBookId: id })
+    .eq("id", 1);
+
+  if (error) {
+    console.error("Error updating featured book:", error);
+    throw new Error("Failed to update featured book: " + error.message);
+  }
+
   revalidatePath("/admin/dashboard");
 }
 
 export async function clearFeaturedBookAction() {
-  await clearFeaturedBookSelection();
+  const supabase = await createClient();
+
+  // Check if user is authenticated
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    throw new Error("You must be logged in");
+  }
+
+  const { error } = await supabase
+    .from("settings")
+    .update({ featuredBookId: null })
+    .eq("id", 1);
+
+  if (error) {
+    console.error("Error clearing featured book:", error);
+    throw new Error("Failed to clear featured book: " + error.message);
+  }
+
   revalidatePath("/admin/dashboard");
 }
 
