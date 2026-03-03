@@ -1,0 +1,169 @@
+.notFoundContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  padding: 20px;
+}
+
+.notFoundContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  text-align: center;
+  max-width: 600px;
+}
+
+.notFoundHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.errorCode {
+  font-size: 6rem;
+  font-weight: 900;
+  background: linear-gradient(
+    to bottom right,
+    var(--accent-primary),
+    var(--accent-hover)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.brokenWand {
+  font-size: 5rem;
+  filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.3));
+  animation: wobble 2s ease-in-out infinite;
+}
+
+.notFoundTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.notFoundDescription {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.magicCircle {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  opacity: 0.3;
+}
+
+.circle {
+  position: absolute;
+  border: 2px solid var(--accent-primary);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: expandRing 2s ease-out infinite;
+}
+
+.circle:nth-child(1) {
+  width: 200px;
+  height: 200px;
+  animation-delay: 0s;
+}
+
+.circle:nth-child(2) {
+  width: 150px;
+  height: 150px;
+  animation-delay: 0.3s;
+}
+
+.circle:nth-child(3) {
+  width: 100px;
+  height: 100px;
+  animation-delay: 0.6s;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.btnPrimary {
+  background: linear-gradient(
+    135deg,
+    var(--accent-primary),
+    var(--accent-hover)
+  );
+  color: var(--bg-deep);
+  padding: 16px 32px;
+  border-radius: var(--radius-md);
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+}
+
+.btnSecondary {
+  background: transparent;
+  color: var(--accent-primary);
+  padding: 16px 32px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--accent-primary);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btnSecondary:hover {
+  background: rgba(16, 185, 129, 0.1);
+  transform: translateY(-3px);
+}
+
+@keyframes wobble {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes expandRing {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
