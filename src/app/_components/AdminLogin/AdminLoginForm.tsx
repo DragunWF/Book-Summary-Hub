@@ -33,8 +33,17 @@ export default function AdminLoginForm() {
 
     try {
       await adminSignIn(formData);
-      setSuccess(true); // This might not be reached if redirect happens
+      // If we reach here without error, credentials were correct
+      // The redirect will happen on the server side
+      setSuccess(true);
     } catch (err) {
+      // Check if this is a redirect error (which is expected on successful login)
+      // Next.js redirect() throws an error with a specific message
+      if (err instanceof Error && err.message.includes("NEXT_REDIRECT")) {
+        setSuccess(true);
+        return; // Don't set error, the redirect will handle navigation
+      }
+      
       console.error("Login failed:", err);
       setError(true);
       // Remove error class after animation plays to allow re-trigger
