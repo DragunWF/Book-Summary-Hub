@@ -21,7 +21,9 @@
 - [x] Markdown rendering
 - [x] Reading time calculation
 - [x] Dynamic table of content headers
-- [ ] Comment on summary feature
+- [x] User comments feature
+  - [x] Anti-spam measures
+  - [x] User ID tracking without account registration
 
 ### Admin Login Page
 
