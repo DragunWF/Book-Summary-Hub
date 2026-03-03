@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import Book from "@/app/_interfaces/book";
 import { getBookSummaryById } from "./data-service";
-import { cookies } from "next/headers";
 import {
   validateCommentLength,
   checkExcessiveFormatting,
@@ -181,23 +180,10 @@ export async function getComments(bookId: string) {
 export async function addComment(formData: FormData) {
   const content = formData.get("content") as string;
   const bookId = formData.get("bookId") as string;
+  const guestToken = formData.get("guestToken") as string;
 
-  if (!content || !bookId) {
-    throw new Error("Content and bookId are required");
-  }
-
-  const cookieStore = await cookies();
-  let guestToken = cookieStore.get("guest_token")?.value;
-
-  // Create or retrieve guest token
-  if (!guestToken) {
-    guestToken = crypto.randomUUID();
-    cookieStore.set("guest_token", guestToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 365 * 24 * 60 * 60,
-    });
+  if (!content || !bookId || !guestToken) {
+    throw new Error("Content, bookId, and guestToken are required");
   }
 
   const username = await getOrCreateUsername(guestToken);

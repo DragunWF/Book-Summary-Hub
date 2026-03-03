@@ -17,12 +17,30 @@ interface CommentsSectionProps {
   bookId: string;
 }
 
+const getOrCreateGuestToken = (): string => {
+  const storageKey = "guest_token";
+  let token = localStorage.getItem(storageKey);
+
+  if (!token) {
+    token = crypto.randomUUID();
+    localStorage.setItem(storageKey, token);
+  }
+
+  return token;
+};
+
 export default function CommentsSection({ bookId }: CommentsSectionProps) {
   const [commentText, setCommentText] = useState("");
   const [comments, setComments] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [guestToken, setGuestToken] = useState<string>("");
   const { success, error } = useToast();
+
+  // Initialize guest token on mount
+  useEffect(() => {
+    setGuestToken(getOrCreateGuestToken());
+  }, []);
 
   // Fetch comments on mount
   useEffect(() => {
@@ -51,6 +69,7 @@ export default function CommentsSection({ bookId }: CommentsSectionProps) {
       const formData = new FormData();
       formData.append("content", commentText);
       formData.append("bookId", bookId);
+      formData.append("guestToken", guestToken);
 
       const newComment = await addComment(formData);
 
