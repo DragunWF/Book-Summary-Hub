@@ -12,7 +12,7 @@
 ### About Page
 
 - [x] UI Layout
-- [ ] Page content
+- [x] Page content
 
 ### Individual Book Summary Page
 
