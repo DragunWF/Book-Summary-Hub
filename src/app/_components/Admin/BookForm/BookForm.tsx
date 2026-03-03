@@ -23,6 +23,7 @@ import {
 import Book from "@/app/_interfaces/book";
 import styles from "./BookForm.module.css";
 import { useToast } from "@/app/_components/Toast/ToastProvider";
+import { CATEGORIES } from "@/app/constants/bookCategories";
 
 interface BookFormProps {
   initialData?: Book | null;
@@ -56,14 +57,6 @@ const PRESET_COLORS = [
   "#f43f5e", // Rose
   "#64748b", // Slate
 ];
-
-const CATEGORIES = [
-  "Technical",
-  "Self-Improvement",
-  "Fiction",
-  "Philosophy",
-  "Business",
-] as const;
 
 export default function BookForm({
   initialData,
