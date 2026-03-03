@@ -33,20 +33,27 @@ export default function AboutPage() {
                     {"//"} System Log: v1.0.4
                   </span>
                   <h1 className={styles.logTitle}>
-                    The Architecture of Knowledge
+                    Continuous Self-Improvement
                   </h1>
                 </header>
 
                 <div className={styles.logContent}>
                   <p className={styles.logText}>
-                    The{" "}
-                    <span className={styles.highlight}>DragunWF Book Hub</span>{" "}
-                    is a digital archive designed to compile, refactor, and
-                    deploy knowledge. It bridges the gap between raw information
-                    and actionable insight, utilizing a &apos;Clean
-                    Architecture&apos; approach to learning. Here, books are not
-                    just read, they are assimilated into a persistent mental
-                    codebase.
+                    Hallo. This book summary hub is where I turn passive reading
+                    into active learning. These notes are curated from my
+                    <a
+                      href="https://obsidian.md/"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {" "}
+                      Obsidian{" "}
+                    </a>
+                    vault and focus on books that demand a deeper dive to fully
+                    grasp. They were born out of a personal uses for learning,
+                    not public communication, but I&apos;ve published them here
+                    so that my &quot;learning in public&quot; might provide
+                    value to you as well.
                   </p>
                 </div>
               </div>
