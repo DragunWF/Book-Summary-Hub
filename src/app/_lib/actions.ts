@@ -6,6 +6,17 @@ import { revalidatePath } from "next/cache";
 import Book from "@/app/_interfaces/book";
 import { getBookSummaryById } from "./data-service";
 import { cookies } from "next/headers";
+import {
+  validateCommentLength,
+  checkExcessiveFormatting,
+  checkURLSpam,
+  checkDuplicateComment,
+  checkProfanity,
+  checkSpamKeywords,
+  checkRateLimits,
+  getOrCreateUsername,
+  insertComment,
+} from "@/app/_lib/comment-service";
 
 const bookSummaryTable = "bookSummaries";
 
@@ -193,46 +204,31 @@ export async function addComment(formData: FormData) {
 
   const cookieStore = await cookies();
   let guestToken = cookieStore.get("guest_token")?.value;
-  let username: string;
 
-  // If no guest token exists, create one
+  // Create or retrieve guest token
   if (!guestToken) {
     guestToken = crypto.randomUUID();
-    const prefix = "Wandering Scholar ";
-    username = prefix + guestToken.substring(0, 4).toUpperCase();
-
-    // Set the cookie (expires in 1 year)
     cookieStore.set("guest_token", guestToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      maxAge: 365 * 24 * 60 * 60, // 1 year in seconds
+      maxAge: 365 * 24 * 60 * 60,
     });
-  } else {
-    // Token exists, reconstruct username from token
-    const prefix = "Wandering Scholar ";
-    username = prefix + guestToken.substring(0, 4).toUpperCase();
   }
 
-  // Insert into Supabase
-  const supabase = await createClient();
+  const username = await getOrCreateUsername(guestToken);
 
-  const { data, error } = await supabase
-    .from("comments")
-    .insert({
-      bookId,
-      guestToken,
-      username,
-      content,
-      createdAt: new Date().toISOString(),
-    })
-    .select()
-    .single();
+  // Run all validations
+  await checkRateLimits(guestToken);
+  await validateCommentLength(content);
+  await checkExcessiveFormatting(content);
+  await checkURLSpam(content);
+  await checkDuplicateComment(guestToken, content);
+  await checkProfanity(content);
+  await checkSpamKeywords(content);
 
-  if (error) {
-    console.error("Error adding comment:", error);
-    throw new Error("Failed to add comment: " + error.message);
-  }
+  // Insert comment
+  const data = await insertComment(bookId, guestToken, username, content);
 
   revalidatePath(`/book-summary/${bookId}`);
 

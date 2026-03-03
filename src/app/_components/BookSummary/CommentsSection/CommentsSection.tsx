@@ -67,7 +67,9 @@ export default function CommentsSection({ bookId }: CommentsSectionProps) {
       success("Comment Posted", "Your thoughts have been inscribed.");
     } catch (err) {
       console.error("Failed to post comment:", err);
-      error("Posting Failed", "Could not post your comment. Please try again.");
+      const errorMessage =
+        err instanceof Error ? err.message : "Could not post your comment.";
+      error("Incantation Failed", errorMessage);
     } finally {
       setIsSubmitting(false);
     }
