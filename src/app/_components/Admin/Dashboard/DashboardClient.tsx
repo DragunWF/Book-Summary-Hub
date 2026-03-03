@@ -75,7 +75,10 @@ export default function DashboardClient({
 
       if (isRedirectError) {
         // Show success toast before the redirect happens
-        success("Archive Deleted", "Book summary has been permanently removed.");
+        success(
+          "Archive Deleted",
+          "Book summary has been permanently removed.",
+        );
       } else {
         error("Deletion Failed", "Could not delete the book summary.");
       }
