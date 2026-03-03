@@ -63,6 +63,6 @@
 - [x] Implement loading spinners
 - [x] Implement "Not Found" page
 - [ ] Implement confirmation toasts
-- [ ] Implement loader actions on forms
-  - [ ] Spinners on dashboard table actions
-  - [ ] Spinners on searching for book summary on dashboard table
+- [x] Implement loader actions on forms
+  - [x] Spinners on dashboard table actions
+  - [x] Spinners on searching for book summary on dashboard table
