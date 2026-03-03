@@ -1,4 +1,4 @@
-# 📖 The Grimoire // Book Summary Hub
+# 📖 DragunWF Library // Book Summary Hub
 
 > _"Where the precision of code meets the wisdom of pages."_
 
@@ -62,10 +62,6 @@ npm install
 Create a `.env.local` file in the root directory and inject your Supabase credentials:
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-
-# For Server Actions / Admin usage
 SUPABASE_URL=your_supabase_project_url
 SUPABASE_KEY=your_supabase_service_role_key
 ```
