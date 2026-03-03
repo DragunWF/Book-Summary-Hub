@@ -2,16 +2,33 @@ import { Zap, X, Edit3 } from "lucide-react";
 import styles from "@/app/admin/dashboard/dashboard.module.css";
 import Book from "@/app/_interfaces/book";
 import Link from "next/link";
+import { useState } from "react";
+import { useToast } from "@/app/_components/Toast/ToastProvider";
 
 interface DashboardHeroProps {
   featuredBook: Book | null | undefined;
-  onClear: () => void;
+  onClear: () => Promise<void>;
 }
 
 export default function DashboardHero({
   featuredBook,
   onClear,
 }: DashboardHeroProps) {
+  const { success, error } = useToast();
+  const [isClearing, setIsClearing] = useState(false);
+
+  const handleClear = async () => {
+    setIsClearing(true);
+    try {
+      await onClear();
+      success("Hero Slot Deactivated", "Featured book has been cleared.");
+    } catch (err) {
+      error("Failed to Deactivate", "Could not clear the featured book slot.");
+    } finally {
+      setIsClearing(false);
+    }
+  };
+
   return (
     <div className={styles.heroSlotContainer}>
       {featuredBook ? (
@@ -39,8 +56,13 @@ export default function DashboardHero({
             </Link>
             <button
               className={styles.heroActionBtn}
-              onClick={onClear}
+              onClick={handleClear}
+              disabled={isClearing}
               title="Deactivate Hero Slot"
+              style={{
+                opacity: isClearing ? 0.5 : 1,
+                cursor: isClearing ? "not-allowed" : "pointer",
+              }}
             >
               <X size={16} />
             </button>

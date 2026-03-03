@@ -15,7 +15,6 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "@/app/admin/dashboard/dashboard.module.css";
 import Book from "@/app/_interfaces/book";
-import { deleteBookSummaryAction } from "@/app/_lib/actions";
 
 interface DashboardTableProps {
   books: Book[];
@@ -25,7 +24,7 @@ interface DashboardTableProps {
   currentPage: number;
   totalPages: number;
   isLoading?: boolean;
-  loadingActionId?: string | null;
+  loadingAction?: { id: string; type: "toggle-featured" | "delete" } | null;
 }
 
 export default function DashboardTable({
@@ -36,7 +35,7 @@ export default function DashboardTable({
   currentPage,
   totalPages,
   isLoading = false,
-  loadingActionId = null,
+  loadingAction = null,
 }: DashboardTableProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -98,13 +97,19 @@ export default function DashboardTable({
         <tbody>
           {books.map((book) => {
             const isFeatured = book.id === featuredBookId;
-            const isFeaturedLoading = loadingActionId === book.id;
+            const isFeatureLoading =
+              loadingAction?.id === book.id &&
+              loadingAction?.type === "toggle-featured";
+            const isDeleteLoading =
+              loadingAction?.id === book.id && loadingAction?.type === "delete";
 
             return (
               <tr
                 key={book.id}
                 className={`${styles.tr} ${isFeatured ? styles.activeRow : ""}`}
-                style={{ opacity: isFeaturedLoading ? 0.6 : 1 }}
+                style={{
+                  opacity: isFeatureLoading || isDeleteLoading ? 0.6 : 1,
+                }}
               >
                 <td className={`${styles.td} ${styles.idCell}`}>#{book.id}</td>
                 <td className={styles.td}>
@@ -152,13 +157,13 @@ export default function DashboardTable({
                       className={`${styles.actionBtn} ${styles.feature} ${isFeatured ? styles.featureActive : ""}`}
                       title={isFeatured ? "Deactivate Hero" : "Set as Hero"}
                       onClick={() => onToggleFeatured(book.id)}
-                      disabled={isFeaturedLoading}
+                      disabled={isFeatureLoading}
                       style={{
-                        opacity: isFeaturedLoading ? 0.7 : 1,
-                        cursor: isFeaturedLoading ? "wait" : "pointer",
+                        opacity: isFeatureLoading ? 0.7 : 1,
+                        cursor: isFeatureLoading ? "wait" : "pointer",
                       }}
                     >
-                      {isFeaturedLoading ? (
+                      {isFeatureLoading ? (
                         <Loader2 size={16} className={styles.spinnerIcon} />
                       ) : (
                         <Zap
@@ -172,11 +177,18 @@ export default function DashboardTable({
                       <button
                         className={`${styles.actionBtn} ${styles.edit}`}
                         title="Edit Entry"
-                        disabled={isFeaturedLoading}
+                        disabled={isFeatureLoading || isDeleteLoading}
                         style={{
-                          opacity: isFeaturedLoading ? 0.5 : 1,
-                          cursor: isFeaturedLoading ? "not-allowed" : "pointer",
-                          pointerEvents: isFeaturedLoading ? "none" : "auto",
+                          opacity:
+                            isFeatureLoading || isDeleteLoading ? 0.5 : 1,
+                          cursor:
+                            isFeatureLoading || isDeleteLoading
+                              ? "not-allowed"
+                              : "pointer",
+                          pointerEvents:
+                            isFeatureLoading || isDeleteLoading
+                              ? "none"
+                              : "auto",
                         }}
                       >
                         <Edit3 size={16} />
@@ -187,13 +199,13 @@ export default function DashboardTable({
                       className={`${styles.actionBtn} ${styles.delete}`}
                       onClick={() => handleBookDeletion(book.id)}
                       title="Delete Entry"
-                      disabled={isFeaturedLoading}
+                      disabled={isDeleteLoading}
                       style={{
-                        opacity: isFeaturedLoading ? 0.5 : 1,
-                        cursor: isFeaturedLoading ? "not-allowed" : "pointer",
+                        opacity: isDeleteLoading ? 0.5 : 1,
+                        cursor: isDeleteLoading ? "not-allowed" : "pointer",
                       }}
                     >
-                      {isFeaturedLoading ? (
+                      {isDeleteLoading ? (
                         <Loader2 size={16} className={styles.spinnerIcon} />
                       ) : (
                         <Trash2 size={16} />

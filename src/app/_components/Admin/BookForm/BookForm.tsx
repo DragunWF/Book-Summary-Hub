@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import Book from "@/app/_interfaces/book";
 import styles from "./BookForm.module.css";
+import { useToast } from "@/app/_components/Toast/ToastProvider";
 
 interface BookFormProps {
   initialData?: Book | null;
@@ -84,6 +85,7 @@ export default function BookForm({
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const { success, error } = useToast();
 
   const handleChange = (
     field: keyof Book,
@@ -99,6 +101,43 @@ export default function BookForm({
     try {
       await onSave(formData);
       setIsDirty(false);
+      if (initialData?.id) {
+        success(
+          "Archive Updated",
+          "Book summary has been updated successfully.",
+        );
+      } else {
+        success(
+          "Archive Created",
+          "New book summary has been added to the vault.",
+        );
+      }
+    } catch (err) {
+      // Check if this is a Next.js redirect error (which means the operation succeeded)
+      const isRedirectError =
+        err instanceof Error &&
+        (err.message.includes("NEXT_REDIRECT") ||
+          (err as any).digest?.includes("REDIRECT"));
+
+      if (isRedirectError) {
+        // Show success toast before the redirect happens
+        if (initialData?.id) {
+          success(
+            "Archive Updated",
+            "Book summary has been updated successfully.",
+          );
+        } else {
+          success(
+            "Archive Created",
+            "New book summary has been added to the vault.",
+          );
+        }
+      } else {
+        error(
+          "Save Failed",
+          "Could not save the book summary. Please try again.",
+        );
+      }
     } finally {
       setIsSaving(false);
     }
@@ -110,6 +149,26 @@ export default function BookForm({
       setIsDeleting(true);
       try {
         await onDelete(formData.id);
+        success(
+          "Archive Destroyed",
+          "Book summary has been permanently removed.",
+        );
+      } catch (err) {
+        // Check if this is a Next.js redirect error (which means the operation succeeded)
+        const isRedirectError =
+          err instanceof Error &&
+          (err.message.includes("NEXT_REDIRECT") ||
+            (err as any).digest?.includes("REDIRECT"));
+
+        if (isRedirectError) {
+          // Show success toast before the redirect happens
+          success(
+            "Archive Destroyed",
+            "Book summary has been permanently removed.",
+          );
+        } else {
+          error("Deletion Failed", "Could not delete the book summary.");
+        }
       } finally {
         setIsDeleting(false);
       }

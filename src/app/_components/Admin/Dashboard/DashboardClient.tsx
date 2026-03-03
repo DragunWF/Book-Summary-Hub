@@ -10,6 +10,7 @@ import {
   clearFeaturedBookAction,
   deleteBookSummaryAction,
 } from "@/app/_lib/actions";
+import { useToast } from "@/app/_components/Toast/ToastProvider";
 
 interface DashboardClientProps {
   books: Book[];
@@ -27,32 +28,59 @@ export default function DashboardClient({
   initialFeaturedBook,
 }: DashboardClientProps) {
   const [isPending, startTransition] = useTransition();
-  const [loadingActionId, setLoadingActionId] = useState<string | null>(null);
+  const [loadingAction, setLoadingAction] = useState<{
+    id: string;
+    type: "toggle-featured" | "delete";
+  } | null>(null);
   const [isNavigating, setIsNavigating] = useState(false);
+  const { success, error } = useToast();
 
   const toggleFeatured = async (id: string) => {
-    setLoadingActionId(id);
+    setLoadingAction({ id, type: "toggle-featured" });
     try {
       if (initialFeaturedBook?.id === id) {
         await clearFeaturedBookAction();
+        success("Archive Slot Activated", "Featured slot has been updated.");
       } else {
         await setFeaturedBookAction(id);
+        success("Archive Slot Activated", "Book marked as primary archive.");
       }
+    } catch (err) {
+      error("Archive Operation Failed", "Could not update featured book.");
     } finally {
-      setLoadingActionId(null);
+      setLoadingAction(null);
     }
   };
 
   const clearFeatured = async () => {
-    await clearFeaturedBookAction();
+    try {
+      await clearFeaturedBookAction();
+      success("Archive Slot Deactivated", "Featured book has been cleared.");
+    } catch (err) {
+      error("Operation Failed", "Could not clear the featured book.");
+    }
   };
 
   const handleDelete = async (id: string) => {
-    setLoadingActionId(id);
+    setLoadingAction({ id, type: "delete" });
     try {
       await deleteBookSummaryAction(id);
+      success("Archive Deleted", "Book summary has been permanently removed.");
+    } catch (err) {
+      // Check if this is a Next.js redirect error (which means the operation succeeded)
+      const isRedirectError =
+        err instanceof Error &&
+        (err.message.includes("NEXT_REDIRECT") ||
+          (err as any).digest?.includes("REDIRECT"));
+
+      if (isRedirectError) {
+        // Show success toast before the redirect happens
+        success("Archive Deleted", "Book summary has been permanently removed.");
+      } else {
+        error("Deletion Failed", "Could not delete the book summary.");
+      }
     } finally {
-      setLoadingActionId(null);
+      setLoadingAction(null);
     }
   };
 
@@ -78,7 +106,7 @@ export default function DashboardClient({
         currentPage={currentPage}
         totalPages={totalPages}
         isLoading={isNavigating}
-        loadingActionId={loadingActionId}
+        loadingAction={loadingAction}
       />
     </>
   );
