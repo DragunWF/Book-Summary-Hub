@@ -52,6 +52,7 @@
 - [x] Book summary creation feature
 - [x] Book summary update feature
 - [x] Book summary delete feature
+- [x] Comment management system feature
 
 ## Miscelleneous
 
