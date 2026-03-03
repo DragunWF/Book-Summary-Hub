@@ -59,5 +59,6 @@
 
 ### Aesthetics
 
-- [ ] Implement error page
-- [ ] Implement loading spinners
+- [x] Implement error page
+- [x] Implement loading spinners
+- [x] Implement "Not Found" page
