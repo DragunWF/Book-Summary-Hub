@@ -37,7 +37,7 @@ export async function createBookSummaryAction(book: Book) {
   const { id, createdAt, ...newBook } = book;
   const payload = { ...newBook };
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from(bookSummaryTable)
     .insert(payload)
     .select()
@@ -66,7 +66,7 @@ export async function updateBookSummaryAction(bookId: string, book: Book) {
 
   const { id, createdAt, ...updatedBookData } = book;
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from(bookSummaryTable)
     .update(updatedBookData)
     .eq("id", bookId)
@@ -103,22 +103,6 @@ export async function deleteBookSummaryAction(id: string) {
 
   revalidatePath("/admin/dashboard");
   redirect("/admin/dashboard");
-}
-
-export async function archiveBookSummary() {
-  return;
-}
-
-export async function getBookSummaries() {
-  return;
-}
-
-export async function getBookSummary(id: number) {
-  return;
-}
-
-export async function getFeaturedBookSummary(id: number) {
-  return;
 }
 
 export async function setFeaturedBookAction(id: string) {
