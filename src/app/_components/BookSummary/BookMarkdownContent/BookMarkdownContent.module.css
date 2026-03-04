@@ -17,7 +17,7 @@
 }
 
 .markdownContent h2::before {
-  content: '#';
+  content: "#";
   color: var(--accent-primary);
   font-family: var(--font-geist-mono);
   font-weight: 400;
@@ -40,7 +40,7 @@
 }
 
 .markdownContent li::before {
-  content: '→';
+  content: "→";
   color: var(--accent-primary);
   position: absolute;
   left: -1.5rem;
@@ -83,8 +83,16 @@
 .codeBody {
   padding: 1.5rem;
   overflow-x: auto;
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
   font-size: 0.9rem;
   color: #e4e4e7;
   line-height: 1.6;
+}
+
+.markdownContent img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1.5rem 0;
+  border-radius: var(--radius-md);
 }
